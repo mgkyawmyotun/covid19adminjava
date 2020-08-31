@@ -64,7 +64,7 @@ public class HospitalController implements Initializable {
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
-
+    private  boolean hospitalBool =false;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
@@ -141,11 +141,6 @@ public class HospitalController implements Initializable {
             }
         };
         new Thread(tableRequest).start();
-
-
-
-
-
 
     }
 

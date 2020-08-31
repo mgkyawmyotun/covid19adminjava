@@ -23,6 +23,7 @@ import models.TownModel;
 import models.TownShipModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.EmptyValidator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,7 +65,7 @@ public class TownShipController implements Initializable {
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
-
+    private  boolean townBool;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
@@ -79,8 +80,21 @@ public class TownShipController implements Initializable {
             editErrorText = (Text) editPane.getChildren().get(5);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
+            JFXButton editButton = (JFXButton) gp.getChildren().get(1);
+            EmptyValidator emptyValidator =new EmptyValidator();
+            edittown.setValidators(emptyValidator);
+            edittown.textProperty().addListener(c ->{
+                if (edittown.validate()) {
+                    townBool = true;
+                    if (townBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
 
+                    editButton.setDisable(true);
+                }
+            });
+            editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,8 +110,22 @@ public class TownShipController implements Initializable {
             addErrorText = (Text) addPane.getChildren().get(5);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
+            JFXButton addButton = (JFXButton) gp.getChildren().get(1);
+            addButton.setDisable(true);
+            EmptyValidator emptyValidator = new EmptyValidator();
+            addtown.setValidators(emptyValidator);
+            addtown.textProperty().addListener(c -> {
+                if (addtown.validate()) {
+                    townBool = true;
+                    if (townBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
 
+                    addButton.setDisable(true);
+                }
+            });
+            addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -177,8 +205,9 @@ public class TownShipController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-
+        townBool =false;
         addstate.setItems(towns);
+        addstate.getSelectionModel().select(0);
 
 
         jfxDialogLayout = new JFXDialogLayout();
@@ -220,7 +249,7 @@ public class TownShipController implements Initializable {
 
     @FXML
     void onEdit(ActionEvent event) {
-
+        townBool =false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob =  treeView.getRoot().getChildren();
 
@@ -257,6 +286,7 @@ public class TownShipController implements Initializable {
 
     }
     private  void onAdd(MouseEvent e ){
+        townBool =false;
         JFXButton jfxButton =(JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         addSpinner.setVisible(true);
@@ -292,6 +322,7 @@ public class TownShipController implements Initializable {
     }
 
     private void onEdit(MouseEvent e) {
+        townBool =false;
         JFXButton jfxButton =(JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         editSpinner.setVisible(true);
