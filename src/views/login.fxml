@@ -35,18 +35,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Text>
-      <FontAwesomeIconView fx:id="back" fill="#eba1a1" glyphName="CHEVRON_LEFT" layoutX="43.0" layoutY="62.0" onMouseClicked="#onBack" size="30" wrappingWidth="77.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></FontAwesomeIconView>
-      <Text fx:id="backText" fill="WHITE" layoutX="82.0" layoutY="56.0" onMouseClicked="#onBack" opacity="0.96" stroke="WHITE" strokeLineJoin="ROUND" strokeType="INSIDE" text="Back to Dashboard" wrappingWidth="297.826171875">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Text>
       <GridPane layoutX="315.0" layoutY="335.0" prefHeight="102.0" prefWidth="298.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -82,7 +70,7 @@
               </JFXButton>
          </children>
       </GridPane>
-      <Text fx:id="errorText" fill="RED" layoutX="13.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: white;" text="Email  or Password is Invalid" textAlignment="CENTER" visible="false" wrappingWidth="271.9999989271164">
+      <Text fx:id="errorText" fill="RED" layoutX="13.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email  or Password is Invalid" textAlignment="CENTER" visible="false" wrappingWidth="271.9999989271164">
          <font>
             <Font size="29.0" />
          </font>

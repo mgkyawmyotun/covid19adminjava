@@ -1,6 +1,7 @@
 package models;
 
 import com.sun.javaws.exceptions.ErrorCodeResponseException;
+import controllers.Main;
 import okhttp3.*;
 import org.json.JSONObject;
 import utils.Helper;
@@ -10,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 
 public class UserModel {
@@ -71,23 +73,25 @@ public class UserModel {
         return new JSONObject(response);
     }
     public void saveToken(){
-        Path filePath = Paths.get("src/token.txt");
-        if(!Files.exists(filePath)){
-            try {
-            Files.createFile(filePath);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            Files.write(filePath,this.user.getString("token").getBytes());
-             String res =Files.readAllLines(filePath).stream().collect(Collectors.joining());
-               this.token =res;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Main.preferences.put("token",this.user.getString("token"));
+//        Path filePath = Paths.get("src/token.txt");
+//        if(!Files.exists(filePath)){
+//            try {
+//            Files.createFile(filePath);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        try {
+//            Files.write(filePath,this.user.getString("token").getBytes());
+//             String res =Files.readAllLines(filePath).stream().collect(Collectors.joining());
+//               this.token =res;
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
     public  String getToken(){

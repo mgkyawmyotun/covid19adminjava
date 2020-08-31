@@ -15,10 +15,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -68,14 +70,12 @@ public class LoginController {
     private Text backText;
     @FXML
     void cancel(ActionEvent event) throws IOException {
-
-
-
+        System.exit(0);
     }
 
     @FXML
     void onBack(MouseEvent event) {
-      Main.load(Main.getScreen("dashboard"));
+
     }
 
     @FXML
@@ -103,7 +103,18 @@ public class LoginController {
                 else{
 
                     userModel.saveToken();
-                    Main.load(Main.getScreen("admin"));
+                    Platform.runLater(() ->{
+                        try {
+                            Main.stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml"))));
+                            Main.stage.centerOnScreen();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    });
+
+                    //      Main.load(Main.getScreen("admin"));
 
                 }
                 login.setDisable(false);

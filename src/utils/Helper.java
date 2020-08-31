@@ -1,5 +1,7 @@
 package utils;
 
+import controllers.Main;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 
 public class Helper {
@@ -40,22 +43,24 @@ public class Helper {
 
     }
     public  static  String getToken(){
-        Path filePath = Paths.get("src/token.txt");
-        String res = null;
-        try {
-            res = Files.readAllLines(filePath).stream().collect(Collectors.joining());
-        } catch (IOException e) {
-            return  "";
-        }
-        return  res;
+          return  Main.preferences.get("token","");
+//        Path filePath = Paths.get("src/token.txt");
+//        String res = null;
+//        try {
+//            res = Files.readAllLines(filePath).stream().collect(Collectors.joining());
+//        } catch (IOException e) {
+//            return  "";
+//        }
+//        return  res;
     }
     public  static  void  deleteToken(){
-        Path filePath = Paths.get("src/token.txt");
-        try {
-            Files.deleteIfExists(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+     Main.preferences.remove("token");
+        //        Path filePath = Paths.get("src/token.txt");
+//        try {
+//            Files.deleteIfExists(filePath);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     public  static  String formatDate(String s){
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);

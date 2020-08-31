@@ -28,15 +28,17 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 
 import java.util.HashMap;
+import java.util.prefs.Preferences;
 
 public class Main extends Application {
     public static HashMap<String, Pane> screenMap = new HashMap<>();
     public static Scene sc = null;
-
+    public  static  Preferences preferences = Preferences.userRoot().node(Main.class.getName());
     public  static Stage stage =null;
     public static void main(String[] args) throws IOException, URISyntaxException, ParseException {
+        System.out.println(preferences.get("token",""));
 
-          launch(args);
+        launch(args);
     }
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -53,21 +55,18 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
-        addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
-
-        sc = new Scene(getScreen("admin"));
 
         stage = primaryStage;
 
-        stage.setScene(sc);
 
         if(!Helper.getToken().isEmpty()){
-            load(getScreen("admin"));
+            sc = new Scene(FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
         }
         else{
-            load(getScreen("login"));
+            sc = new Scene(FXMLLoader.load(getClass().getResource("/views/login.fxml")));
         }
+        stage.setScene(sc);
+
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker Admin");
         stage.centerOnScreen();
@@ -86,8 +85,7 @@ public class Main extends Application {
     }
 
 
-    public  static  void load(Pane pane){
-
+    public  void load(Pane pane){
             stage.getScene().setRoot(pane);
             stage.sizeToScene();
             stage.centerOnScreen();
@@ -98,7 +96,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
 
-        System.exit(0);
+
 
     }
 
