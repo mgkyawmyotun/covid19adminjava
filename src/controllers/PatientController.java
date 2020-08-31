@@ -206,7 +206,7 @@ public class PatientController implements Initializable {
                     addOversea.setItems(countries);
                     editOversea.setItems(countries);
                     addOversea.getSelectionModel().select(0);
-                    addContactPerson.setItems(contacts);
+
                     addContactPerson.getSelectionModel().select(0);
 
                 });
@@ -260,7 +260,9 @@ public class PatientController implements Initializable {
                     final TreeItem<Patient> root = new RecursiveTreeItem<Patient>(patients, RecursiveTreeObject::getChildren);
                     treeView.getColumns().setAll(patientCol, ageCol, genderCol, stateCol, townCol, townShipCol, hospitalCol, overseaCol, date, contactCol);
                     contacts.add(0, "No");
+
                     addContactPerson.setItems(contacts);
+                    addContactPerson.getSelectionModel().select(0);
                     editContactPerson.setItems(contacts);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
@@ -476,7 +478,7 @@ public class PatientController implements Initializable {
                 addPatientObject.put("towns_ship_id", addTownShip.getSelectionModel().getSelectedItem()._id);
                 addPatientObject.put("hospital_id", addHospital.getSelectionModel().getSelectedItem()._id);
                 addPatientObject.put("contact_person", addContactPerson.getSelectionModel().getSelectedItem());
-                addPatientObject.put("oversea_country", "No");
+                addPatientObject.put("oversea_country", addOversea.getSelectionModel().getSelectedItem());
                 PatientModel townModel = new PatientModel();
 
                 townModel.addPatient(addPatientObject.toString());
