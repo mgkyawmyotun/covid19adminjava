@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,7 +30,8 @@ import javafx.scene.text.Text;
 import models.StateModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sun.reflect.generics.tree.Tree;
+import utils.EmptyValidator;
+import utils.NumberValidator;
 
 public class StateViewController implements Initializable {
 
@@ -56,7 +58,7 @@ public class StateViewController implements Initializable {
     private JFXTextField addlongitude;
     private JFXSpinner addSpinner;
     private JFXTextField addstate;
-    private  Text addErrorText;
+    private Text addErrorText;
     @FXML
     private JFXTextField longitude;
     @FXML
@@ -67,6 +69,9 @@ public class StateViewController implements Initializable {
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
+    boolean stateBool = false;
+    boolean latitudeBool = false;
+    boolean longtitudeBool = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -81,8 +86,48 @@ public class StateViewController implements Initializable {
             editErrorText = (Text) editPane.getChildren().get(7);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
+            JFXButton editButton = (JFXButton) gp.getChildren().get(1);
+            editButton.setDisable(true);
+            EmptyValidator emptyValidator = new EmptyValidator();
+            state.setValidators(emptyValidator);
+            state.textProperty().addListener(c -> {
+                if (state.validate()) {
+                    stateBool = true;
+                    if (stateBool && latitudeBool && longtitudeBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+                    System.out.println("Error");
+                    editButton.setDisable(true);
+                }
+            });
+            NumberValidator numberValidator = new NumberValidator();
+            latitude.setValidators(numberValidator);
+            longitude.setValidators(numberValidator);
+            latitude.textProperty().addListener(c -> {
+                if (latitude.validate()) {
+                    latitudeBool = true;
+                    if (stateBool && latitudeBool && longtitudeBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
 
+                    editButton.setDisable(true);
+                }
+            });
+            longitude.textProperty().addListener(c -> {
+                if (longitude.validate()) {
+                    longtitudeBool = true;
+                    if (stateBool && latitudeBool && longtitudeBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+
+                    editButton.setDisable(true);
+                }
+            });
+
+            editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,18 +141,59 @@ public class StateViewController implements Initializable {
             addlongitude = (JFXTextField) addPane.getChildren().get(5);
             addSpinner = (JFXSpinner) addPane.getChildren().get(6);
             addErrorText = (Text) addPane.getChildren().get(7);
-
+            JFXButton addButton = (JFXButton) gp.getChildren().get(1);
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
+            addButton.setDisable(true);
+            EmptyValidator emptyValidator = new EmptyValidator();
+
+            addstate.setValidators(emptyValidator);
+            addstate.textProperty().addListener(c -> {
+                if (addstate.validate()) {
+                    stateBool = true;
+                    if (stateBool && latitudeBool && longtitudeBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
+                    System.out.println("Error");
+                    addButton.setDisable(true);
+                }
+            });
+            NumberValidator numberValidator = new NumberValidator();
+            addlatitude.setValidators(numberValidator);
+            addlongitude.setValidators(numberValidator);
+            addlatitude.textProperty().addListener(c -> {
+                if (addlatitude.validate()) {
+                    latitudeBool = true;
+                    if (stateBool && latitudeBool && longtitudeBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
+                    System.out.println("Error");
+                    addButton.setDisable(true);
+                }
+            });
+            addlongitude.textProperty().addListener(c -> {
+                if (addlongitude.validate()) {
+                    longtitudeBool = true;
+                    if (stateBool && latitudeBool && longtitudeBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
+                    System.out.println("Error");
+                    addButton.setDisable(true);
+                }
+            });
+
+            addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        treeView.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+        treeView.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             editButton.setDisable(false);
             deleteButton.setDisable(false);
 
-      });
+        });
 
         loadTable();
 
@@ -125,11 +211,11 @@ public class StateViewController implements Initializable {
 
         JFXTreeTableColumn<State, String> nameCol = new JFXTreeTableColumn<>("Longitude");
         nameCol.setCellValueFactory(param -> param.getValue().getValue().lat);
-        Task<Void> tableRequest =new Task<Void>() {
+        Task<Void> tableRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 states = loadSates();
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
                     final TreeItem<StateViewController.State> root = new RecursiveTreeItem<StateViewController.State>(states, RecursiveTreeObject::getChildren);
                     treeView.getColumns().setAll(deptName, lonCol, nameCol);
                     treeView.setRoot(root);
@@ -143,10 +229,6 @@ public class StateViewController implements Initializable {
         new Thread(tableRequest).start();
 
 
-
-
-
-
     }
 
     private ObservableList<State> loadSates() {
@@ -157,7 +239,7 @@ public class StateViewController implements Initializable {
         for (int i = 0; i < jsonStates.length(); i++) {
             JSONObject jsonObject = jsonStates.getJSONObject(i);
             JSONArray jsonArray = jsonObject.getJSONArray("location");
-            observableList.add(new State(jsonObject.getString("name"), jsonArray.get(0) + "",jsonArray.get(1) + "" ,jsonObject.getString("_id")));
+            observableList.add(new State(jsonObject.getString("name"), jsonArray.get(0) + "", jsonArray.get(1) + "", jsonObject.getString("_id")));
         }
         return observableList;
     }
@@ -168,6 +250,9 @@ public class StateViewController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
+        stateBool = false;
+        longtitudeBool = false;
+        latitudeBool = false;
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Add State"));
         jfxDialogLayout.setBody(addPane);
@@ -178,20 +263,20 @@ public class StateViewController implements Initializable {
 
     @FXML
     void onDelete(ActionEvent event) {
-        JFXButton jfxButton =(JFXButton) event.getTarget();
+        JFXButton jfxButton = (JFXButton) event.getTarget();
         jfxButton.setDisable(true);
-        Task<Void> deleteRequest =new Task<Void>() {
+        Task<Void> deleteRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
-                ObservableList ob =  treeView.getRoot().getChildren();
+                ObservableList ob = treeView.getRoot().getChildren();
 
-                selectedState = (StateViewController.State) ((TreeItem)ob.get(selectedIndex)).getValue();
-                StateModel stateModel =new StateModel();
+                selectedState = (StateViewController.State) ((TreeItem) ob.get(selectedIndex)).getValue();
+                StateModel stateModel = new StateModel();
                 stateModel.deleteState(selectedState._id);
                 loadTable();
                 jfxButton.setDisable(false);
-                return  null;
+                return null;
             }
 
 
@@ -207,11 +292,13 @@ public class StateViewController implements Initializable {
 
     @FXML
     void onEdit(ActionEvent event) {
-
+        stateBool = false;
+        longtitudeBool = false;
+        latitudeBool = false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
-        ObservableList ob =  treeView.getRoot().getChildren();
+        ObservableList ob = treeView.getRoot().getChildren();
 
-        selectedState = (State) ((TreeItem)ob.get(selectedIndex)).getValue();
+        selectedState = (State) ((TreeItem) ob.get(selectedIndex)).getValue();
         state.setText(selectedState.name.getValue());
         latitude.setText(selectedState.lat.getValue());
         longitude.setText(selectedState.lon.getValue());
@@ -242,24 +329,28 @@ public class StateViewController implements Initializable {
         }
 
     }
-    private  void onAdd(MouseEvent e ){
-        JFXButton jfxButton =(JFXButton) e.getTarget();
+
+    private void onAdd(MouseEvent e) {
+        stateBool = false;
+        longtitudeBool = false;
+        latitudeBool = false;
+        JFXButton jfxButton = (JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         addSpinner.setVisible(true);
-        Task<Void> addRequest =new Task<Void>() {
+        Task<Void> addRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject addStateObject =new JSONObject();
-                addStateObject.put("name",addstate.getText());
-                JSONArray jsonArray =new JSONArray();
+                JSONObject addStateObject = new JSONObject();
+                addStateObject.put("name", addstate.getText());
+                JSONArray jsonArray = new JSONArray();
                 jsonArray.put(Double.parseDouble(addlatitude.getText()));
                 jsonArray.put(Double.parseDouble(addlongitude.getText()));
-                addStateObject.put("location",jsonArray);
+                addStateObject.put("location", jsonArray);
                 StateModel stateModel = new StateModel();
 
                 stateModel.addState(addStateObject.toString());
 
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
 
                     loadTable();
                     jfxButton.setDisable(false);
@@ -269,7 +360,7 @@ public class StateViewController implements Initializable {
                     addlatitude.setText("");
                     addlongitude.setText("");
                 });
-                return  null;
+                return null;
             }
         };
         new Thread(addRequest).start();
@@ -280,23 +371,26 @@ public class StateViewController implements Initializable {
     }
 
     private void onEdit(MouseEvent e) {
-        JFXButton jfxButton =(JFXButton) e.getTarget();
+        stateBool = false;
+        longtitudeBool = false;
+        latitudeBool = false;
+        JFXButton jfxButton = (JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         editSpinner.setVisible(true);
-        Task<Void> editRequest =new Task<Void>() {
+        Task<Void> editRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject editStateObject =new JSONObject();
-                editStateObject.put("name",state.getText());
-                JSONArray jsonArray =new JSONArray();
+                JSONObject editStateObject = new JSONObject();
+                editStateObject.put("name", state.getText());
+                JSONArray jsonArray = new JSONArray();
                 jsonArray.put(Double.parseDouble(latitude.getText()));
                 jsonArray.put(Double.parseDouble(longitude.getText()));
-                editStateObject.put("location",jsonArray);
+                editStateObject.put("location", jsonArray);
                 StateModel stateModel = new StateModel();
 
-                stateModel.editState(editStateObject.toString(),selectedState._id);
+                stateModel.editState(editStateObject.toString(), selectedState._id);
 
-                Platform.runLater(() ->{
+                Platform.runLater(() -> {
 
                     loadTable();
                     jfxButton.setDisable(false);
@@ -304,7 +398,7 @@ public class StateViewController implements Initializable {
                     jfxDialog.close();
 
                 });
-                return  null;
+                return null;
             }
         };
 
@@ -313,7 +407,6 @@ public class StateViewController implements Initializable {
             editButton.setDisable(true);
             deleteButton.setDisable(true);
         });
-
 
 
     }
