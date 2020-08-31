@@ -45,7 +45,7 @@ public class TownShipController implements Initializable {
     private Text titleText;
     @FXML
     private JFXTextField edittown;
-    private  JFXComboBox<Town> editstate;
+    private  JFXComboBox<Town> editTown;
     private Pane editPane;
     private Pane addPane;
     TownShip seletedTownShip;
@@ -73,7 +73,7 @@ public class TownShipController implements Initializable {
 
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
             edittown = (JFXTextField) editPane.getChildren().get(1);
-            editstate = (JFXComboBox) editPane.getChildren().get(3);
+            editTown = (JFXComboBox) editPane.getChildren().get(3);
 
             editSpinner = (JFXSpinner) editPane.getChildren().get(4);
             editErrorText = (Text) editPane.getChildren().get(5);
@@ -128,7 +128,7 @@ public class TownShipController implements Initializable {
                 addButton.setDisable(true);
                 townships = loadTownShips();
 
-               towns =loadTowns();
+                  towns =loadTowns();
                 addButton.setDisable(false);
                 Platform.runLater(() ->{
                     final TreeItem<TownShip> root = new RecursiveTreeItem<TownShip>(townships, RecursiveTreeObject::getChildren);
@@ -158,8 +158,15 @@ public class TownShipController implements Initializable {
         JSONArray jsonTownShip = townModel.getTownShips();
         for (int i = 0; i < jsonTownShip.length(); i++) {
             JSONObject jsonObject = jsonTownShip.getJSONObject(i);
-            JSONObject stateObject =jsonObject.getJSONObject("town");
-            observableList.add(new TownShip(jsonObject.getString("name"), stateObject.getString("name") ,stateObject.getString("_id")  ,jsonObject.getString("_id")));
+           if(jsonObject.isNull("town")){
+               JSONObject jsonObject1 =new JSONObject();
+               jsonObject1.put("name","No Town (Deleted)");
+               jsonObject1.put("_id","");
+               jsonObject.put("town",jsonObject1);
+            }
+            JSONObject townObject =jsonObject.getJSONObject("town");
+        //    System.out.println(townObject.toString());
+            observableList.add(new TownShip(jsonObject.getString("name"), townObject.getString("name") ,townObject.getString("_id")  ,jsonObject.getString("_id")));
         }
         return observableList;
     }
@@ -170,9 +177,9 @@ public class TownShipController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-        System.out.println(towns.get(0));
+
         addstate.setItems(towns);
-        System.out.println(addstate.getItems());
+
 
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Add TownShip"));
@@ -220,10 +227,9 @@ public class TownShipController implements Initializable {
         seletedTownShip = (TownShip) ((TreeItem)ob.get(selectedIndex)).getValue();
         edittown.setText(seletedTownShip.name.getValue());
         Town state = towns.stream().filter((x) -> x.name.equals(seletedTownShip.town_name.getValue())).findFirst().orElse(towns.get(0));
+        editTown.setItems(towns);
 
-        editstate.setItems(towns);
-
-        editstate.getSelectionModel().select(state);
+        editTown.getSelectionModel().select(state);
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Edit TownShip"));
         jfxDialogLayout.setBody(editPane);
@@ -231,7 +237,7 @@ public class TownShipController implements Initializable {
         jfxDialog.setOverlayClose(false);
         jfxDialog.show();
 
-        System.out.println(treeView.getSelectionModel().getSelectedIndex());
+
 
     }
 
@@ -297,7 +303,7 @@ public class TownShipController implements Initializable {
                 editTownObject.put("name",edittown.getText());
 
                 editTownObject.put("_id",seletedTownShip._id);
-                editTownObject.put("state",editstate.getSelectionModel().getSelectedItem()._id);
+                editTownObject.put("town",editTown.getSelectionModel().getSelectedItem()._id);
                 TownShipModel townModel = new TownShipModel();
 
                 townModel.editTownShip(editTownObject.toString(),seletedTownShip._id);
