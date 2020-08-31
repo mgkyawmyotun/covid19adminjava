@@ -157,8 +157,15 @@ public class HospitalController implements Initializable {
         JSONArray jsonHospital = townModel.getHospitals();
         for (int i = 0; i < jsonHospital.length(); i++) {
             JSONObject jsonObject = jsonHospital.getJSONObject(i);
-            JSONObject stateObject =jsonObject.getJSONObject("town");
-            observableList.add(new Hospital(jsonObject.getString("name"), stateObject.getString("name") ,stateObject.getString("_id")  ,jsonObject.getString("_id")));
+           if(jsonObject.isNull("town")){
+                JSONObject jsonObject1 =new JSONObject();
+                jsonObject1.put("name","No Town (Deleted)");
+                jsonObject1.put("_id","");
+                jsonObject.put("town",jsonObject1);
+            }
+            JSONObject townObject =jsonObject.getJSONObject("town");
+
+            observableList.add(new Hospital(jsonObject.getString("name"), townObject.getString("name") ,townObject.getString("_id")  ,jsonObject.getString("_id")));
         }
         return observableList;
     }
