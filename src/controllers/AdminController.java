@@ -207,6 +207,6 @@ public class AdminController {
     }
     @FXML
     void initialize() {
-
+        System.out.println("Admin Pannel");
     }
 }

@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import javafx.stage.Stage;
-
+import utils.Helper;
 
 
 import java.awt.*;
@@ -61,7 +61,13 @@ public class Main extends Application {
         stage = primaryStage;
 
         stage.setScene(sc);
-        load(getScreen("login"));
+
+        if(!Helper.getToken().isEmpty()){
+            load(getScreen("admin"));
+        }
+        else{
+            load(getScreen("login"));
+        }
         stage.setFullScreen(false);
         stage.setTitle("Covid-19 Tracker Admin");
         stage.centerOnScreen();
@@ -82,7 +88,7 @@ public class Main extends Application {
 
     public  static  void load(Pane pane){
 
-            sc.setRoot(pane);
+            stage.getScene().setRoot(pane);
             stage.sizeToScene();
             stage.centerOnScreen();
             stage.hide();
