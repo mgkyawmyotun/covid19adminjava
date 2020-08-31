@@ -68,10 +68,8 @@ public class LoginController {
     private Text backText;
     @FXML
     void cancel(ActionEvent event) throws IOException {
-        Main.addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
 
-        System.out.println(Main.getScreen("admin"));
-        Main.load(Main.getScreen("admin"));
+
 
     }
 

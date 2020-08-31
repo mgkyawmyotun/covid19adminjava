@@ -56,14 +56,14 @@ public class Main extends Application {
         addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
         addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
 
-        System.out.println("Hello");
-        sc = new Scene(getScreen("login"));
+        sc = new Scene(getScreen("admin"));
 
         stage = primaryStage;
 
         stage.setScene(sc);
+        load(getScreen("login"));
         stage.setFullScreen(false);
-        stage.setTitle("Covid-19 Tracker App");
+        stage.setTitle("Covid-19 Tracker Admin");
         stage.centerOnScreen();
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/views/Images/covid1.png")));
         stage.show();
@@ -82,7 +82,7 @@ public class Main extends Application {
 
     public  static  void load(Pane pane){
 
-            stage.getScene().setRoot(pane);
+            sc.setRoot(pane);
             stage.sizeToScene();
             stage.centerOnScreen();
             stage.hide();
