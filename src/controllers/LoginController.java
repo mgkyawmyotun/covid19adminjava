@@ -105,10 +105,7 @@ public class LoginController {
                 else{
 
                     userModel.saveToken();
-                    Main.addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
-
-                         System.out.println(Main.getScreen("admin"));
-                          Main.load(Main.getScreen("admin"));
+                    Main.load(Main.getScreen("admin"));
 
                 }
                 login.setDisable(false);

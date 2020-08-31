@@ -19,7 +19,7 @@
          <left>
             <VBox styleClass="navbar" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane prefHeight="238.0" prefWidth="330.0">
+                  <AnchorPane prefHeight="190.0" prefWidth="328.0">
                      <children>
                         <Text layoutX="2.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER" wrappingWidth="320.6708984375">
                            <font>
@@ -127,6 +127,21 @@
                         <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Images/adduser.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="account" alignment="CENTER" layoutX="10.0" layoutY="631.0" onAction="#onAccount" prefHeight="82.0" prefWidth="330.0" text="   Account" textFill="WHITE">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/covidadmin.png" />
                            </image>
                         </ImageView>
                      </graphic>

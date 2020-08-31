@@ -21,10 +21,12 @@ import models.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.Helper;
+import utils.HttpService;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Formatter;
 import java.util.ResourceBundle;
 
@@ -59,10 +61,23 @@ public class PatientController implements Initializable {
     private JFXComboBox<TownShip> addTownShip;
     private JFXComboBox<Town> addTown;
     private JFXComboBox<Hospital> addHospital;
+    private JFXComboBox<String> addOversea;
     private JFXDatePicker addDate;
     private JFXSpinner addSpinner;
-
     private Text addErrorText;
+    //Edit
+    private JFXTextField editPatient;
+    private JFXTextField editAge;
+    private JFXComboBox<State> editState;
+    private JFXComboBox<String> editContactPerson;
+    private JFXComboBox<String> editGender;
+    private JFXComboBox<TownShip> editTownShip;
+    private JFXComboBox<Town> editTown;
+    private JFXComboBox<Hospital> editHospital;
+    private JFXComboBox<String> editOversea;
+    private JFXDatePicker editDate;
+    private JFXSpinner editSpinner;
+    private Text editErrorText;
 
     @FXML
     private JFXButton deleteButton;
@@ -73,12 +88,11 @@ public class PatientController implements Initializable {
     private ObservableList<TownShip> townships;
     private ObservableList<Hospital> hospitals;
     private ObservableList<Patient> patients;
-    private ObservableList<String> contact_person;
     private ObservableList<String> genders;
-    private  ObservableList<String> contacts;
+    private ObservableList<String> contacts;
+    private ObservableList<String> countries;
     private JFXDialogLayout jfxDialogLayout;
-    private Text editErrorText;
-    private JFXSpinner editSpinner;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -87,12 +101,21 @@ public class PatientController implements Initializable {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/editPatient.fxml"));
 
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
-            edittown = (JFXTextField) editPane.getChildren().get(1);
-            editstate = (JFXComboBox) editPane.getChildren().get(3);
-
-            editSpinner = (JFXSpinner) editPane.getChildren().get(4);
-            editErrorText = (Text) editPane.getChildren().get(5);
-
+            HBox hBox = (HBox) editPane.getChildren().get(0);
+            editPatient = (JFXTextField) hBox.getChildren().get(0);
+            editAge = (JFXTextField) hBox.getChildren().get(1);
+            AnchorPane anchorPane = (AnchorPane) editPane.getChildren().get(1);
+            editGender = (JFXComboBox) anchorPane.getChildren().get(2);
+            editContactPerson = (JFXComboBox) anchorPane.getChildren().get(4);
+            editState = (JFXComboBox) anchorPane.getChildren().get(5);
+            editOversea = (JFXComboBox) anchorPane.getChildren().get(6);
+            AnchorPane anchorPane1 = (AnchorPane) editPane.getChildren().get(2);
+            editTownShip = (JFXComboBox) anchorPane1.getChildren().get(2);
+            editTown = (JFXComboBox) anchorPane1.getChildren().get(4);
+            editHospital = (JFXComboBox) anchorPane1.getChildren().get(5);
+            editDate = (JFXDatePicker) anchorPane1.getChildren().get(6);
+            editSpinner = (JFXSpinner) editPane.getChildren().get(3);
+            editErrorText = (Text) editPane.getChildren().get(4);
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
 
@@ -111,15 +134,12 @@ public class PatientController implements Initializable {
             addGender = (JFXComboBox) anchorPane.getChildren().get(2);
             addContactPerson = (JFXComboBox) anchorPane.getChildren().get(4);
             addState = (JFXComboBox) anchorPane.getChildren().get(5);
+            addOversea = (JFXComboBox) anchorPane.getChildren().get(6);
             AnchorPane anchorPane1 = (AnchorPane) addPane.getChildren().get(2);
             addTownShip = (JFXComboBox) anchorPane1.getChildren().get(2);
             addTown = (JFXComboBox) anchorPane1.getChildren().get(4);
             addHospital = (JFXComboBox) anchorPane1.getChildren().get(5);
             addDate = (JFXDatePicker) anchorPane1.getChildren().get(6);
-    //        System.out.println(anchorPane1.getChildren());
-            //            addtown = (JFXTextField) addPane.getChildren().get(1);
-//            addstate = (JFXComboBox) addPane.getChildren().get(3);
-
             addSpinner = (JFXSpinner) addPane.getChildren().get(3);
             addErrorText = (Text) addPane.getChildren().get(4);
 
@@ -135,43 +155,70 @@ public class PatientController implements Initializable {
 
         });
 
+
         loadTable();
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 addButton.setDisable(true);
-                states =loadSates();
-                towns =loadTowns();
-                townships=loadTownShips();
-                hospitals =loadHospitals();
-                genders =FXCollections.observableArrayList();
+                states = loadSates();
+                towns = loadTowns();
+                townships = loadTownShips();
+
+                genders = FXCollections.observableArrayList();
                 genders.add("Male");
                 genders.add("Female");
 
-                contacts =loadContacts();
-                Platform.runLater(() ->{
-                    contacts.add(0,"No");
+
+                Platform.runLater(() -> {
+                    addDate.setValue(LocalDate.now());
                     addState.setItems(states);
+                    editState.setItems(states);
                     addState.getSelectionModel().select(0);
                     addTown.setItems(towns);
+                    editTown.setItems(towns);
                     addTown.getSelectionModel().select(0);
                     addTownShip.setItems(townships);
+                    editTownShip.setItems(townships);
                     addTownShip.getSelectionModel().select(0);
-                    addHospital.setItems(hospitals);
-                    addHospital.getSelectionModel().select(0);
+
                     addGender.setItems(genders);
                     addGender.getSelectionModel().select(0);
-                    addContactPerson.setItems(contacts);
-                    addContactPerson.getSelectionModel().select(0);
-
+                    editGender.setItems(genders);
 
                 });
                 return null;
             }
         };
-        new Thread(task).start();
+        Task<Void> task1 = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                countries = loadCountries();
 
-        task.setOnSucceeded((sd) ->{
+                hospitals = loadHospitals();
+                Platform.runLater(() -> {
+
+                    countries.add(0, "No");
+                    editHospital.setItems(hospitals);
+
+                    addHospital.setItems(hospitals);
+                    addHospital.getSelectionModel().select(0);
+                    addOversea.setItems(countries);
+                    editOversea.setItems(countries);
+                    addOversea.getSelectionModel().select(0);
+                    addContactPerson.setItems(contacts);
+                    addContactPerson.getSelectionModel().select(0);
+
+                });
+                return null;
+            }
+        };
+        new Thread(task1).start();
+        new Thread(task).start();
+        task.setOnSucceeded((sd) -> {
+            addButton.setDisable(false);
+        });
+        task1.setOnSucceeded((s) -> {
             addButton.setDisable(false);
         });
     }
@@ -207,13 +254,14 @@ public class PatientController implements Initializable {
 
                 patients = loadPatients();
                 contacts
-                        =loadContacts();
+                        = loadContacts();
 
                 Platform.runLater(() -> {
                     final TreeItem<Patient> root = new RecursiveTreeItem<Patient>(patients, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(patientCol, ageCol, genderCol, stateCol, townCol, townShipCol, hospitalCol,overseaCol, date, contactCol);
-                    contacts.add(0,"No");
+                    treeView.getColumns().setAll(patientCol, ageCol, genderCol, stateCol, townCol, townShipCol, hospitalCol, overseaCol, date, contactCol);
+                    contacts.add(0, "No");
                     addContactPerson.setItems(contacts);
+                    editContactPerson.setItems(contacts);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
                     tableLoading.setVisible(false);
@@ -239,9 +287,7 @@ public class PatientController implements Initializable {
             JSONObject townShipObject = jsonObject.getJSONObject("townShip");
             JSONObject stateObject = jsonObject.getJSONObject("state");
             JSONObject hospitalObject = jsonObject.getJSONObject("hospital");
-            System.out.println(townObject.toString());
-            System.out.println(stateObject.toString());
-            System.out.println(jsonObject.getString("date"));
+
 
             Patient p = new Patient(jsonObject.getString("patient_id"),
                     jsonObject.getString("_id"),
@@ -318,12 +364,36 @@ public class PatientController implements Initializable {
         ObservableList ob = treeView.getRoot().getChildren();
 
         seletedPatient = (Patient) ((TreeItem) ob.get(selectedIndex)).getValue();
-        edittown.setText(seletedPatient.name.getValue());
-        Town state = towns.stream().filter((x) -> x.name.equals(seletedPatient.town_name.getValue())).findFirst().orElse(towns.get(0));
+        editPatient.setText(seletedPatient.name.getValue());
+        Town town = towns.stream().filter((x) -> x.name.equals(seletedPatient.town_name.getValue())).findFirst().orElse(towns.get(0));
+        TownShip townShip = townships.stream().filter((x) -> x.name.equals(seletedPatient.township_name.getValue())).findFirst().orElse(townships.get(0));
+        State state = states.stream().filter((x) -> x.name.equals(seletedPatient.state_name.getValue())).findFirst().orElse(states.get(0));
+        Hospital hospital = hospitals.stream().filter((x) -> x.name.equals(seletedPatient.hospital_name.getValue())).findFirst().orElse(hospitals.get(0));
+        String gender = seletedPatient.gender.getValue();
+        String age = seletedPatient.age.getValue();
+        String contactPerson = seletedPatient.contact.getValue();
+        String date = seletedPatient.date.getValue();
+        String oversea = seletedPatient.oversea_country.getValue();
 
-        editstate.setItems(towns);
 
-        editstate.getSelectionModel().select(state);
+        editTown.getSelectionModel().select(town);
+
+        editTownShip.getSelectionModel().select(townShip);
+
+        editState.getSelectionModel().select(state);
+
+        editHospital.getSelectionModel().select(hospital);
+
+        editGender.getSelectionModel().select(gender);
+
+        editAge.setText(age);
+
+        editContactPerson.getSelectionModel().select(contactPerson);
+
+        editDate.setValue(Helper.formatLocalDate(date));
+
+        editOversea.getSelectionModel().select(oversea);
+
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Edit Patient"));
         jfxDialogLayout.setBody(editPane);
@@ -381,7 +451,7 @@ public class PatientController implements Initializable {
             this.date = new SimpleStringProperty(date);
             this.age = new SimpleStringProperty(age);
             this.gender = new SimpleStringProperty(gender);
-            this.oversea_country=new SimpleStringProperty(oversea_country);
+            this.oversea_country = new SimpleStringProperty(oversea_country);
             this._id = _id;
         }
 
@@ -399,14 +469,14 @@ public class PatientController implements Initializable {
                 addPatientObject.put("patient_id", addPatient.getText());
 
                 addPatientObject.put("age", addAge.getText());
-                addPatientObject.put("gender",addGender.getSelectionModel().getSelectedItem());
-                addPatientObject.put("date",addDate.getValue());
-                addPatientObject.put("town_id",addTown.getSelectionModel().getSelectedItem()._id);
-                addPatientObject.put("state_id",addState.getSelectionModel().getSelectedItem()._id) ;
-                addPatientObject.put("towns_ship_id",addTownShip.getSelectionModel().getSelectedItem()._id);
-                addPatientObject.put("hospital_id",addHospital.getSelectionModel().getSelectedItem()._id);
-                addPatientObject.put("contact_person",addContactPerson.getSelectionModel().getSelectedItem());
-                addPatientObject.put("oversea_country","No");
+                addPatientObject.put("gender", addGender.getSelectionModel().getSelectedItem());
+                addPatientObject.put("date", addDate.getValue());
+                addPatientObject.put("town_id", addTown.getSelectionModel().getSelectedItem()._id);
+                addPatientObject.put("state_id", addState.getSelectionModel().getSelectedItem()._id);
+                addPatientObject.put("towns_ship_id", addTownShip.getSelectionModel().getSelectedItem()._id);
+                addPatientObject.put("hospital_id", addHospital.getSelectionModel().getSelectedItem()._id);
+                addPatientObject.put("contact_person", addContactPerson.getSelectionModel().getSelectedItem());
+                addPatientObject.put("oversea_country", "No");
                 PatientModel townModel = new PatientModel();
 
                 townModel.addPatient(addPatientObject.toString());
@@ -439,14 +509,21 @@ public class PatientController implements Initializable {
         Task<Void> editRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject editTownObject = new JSONObject();
-                editTownObject.put("name", edittown.getText());
+                JSONObject editPatientObject = new JSONObject();
+                editPatientObject.put("patient_id", editPatient.getText());
+                editPatientObject.put("age", editAge.getText());
+                editPatientObject.put("gender", editGender.getSelectionModel().getSelectedItem());
+                editPatientObject.put("state", editState.getSelectionModel().getSelectedItem()._id);
+                editPatientObject.put("hospital",editHospital.getSelectionModel().getSelectedItem()._id);
+                editPatientObject.put("town",editTown.getSelectionModel().getSelectedItem()._id);
+                editPatientObject.put("townShip",editTownShip.getSelectionModel().getSelectedItem()._id);
+                editPatientObject.put("oversea_country",editOversea.getSelectionModel().getSelectedItem());
+                editPatientObject.put("date",editDate.getValue());
+                editPatientObject.put("contact_person",editContactPerson.getSelectionModel().getSelectedItem());
 
-                editTownObject.put("_id", seletedPatient._id);
-                editTownObject.put("state", editstate.getSelectionModel().getSelectedItem()._id);
                 PatientModel townModel = new PatientModel();
 
-                townModel.editPatient(editTownObject.toString(), seletedPatient._id);
+                townModel.editPatient(editPatientObject.toString(), seletedPatient._id);
 
                 Platform.runLater(() -> {
 
@@ -468,7 +545,6 @@ public class PatientController implements Initializable {
 
 
     }
-
 
 
     class Town {
@@ -544,6 +620,7 @@ public class PatientController implements Initializable {
         }
         return observableList;
     }
+
     private ObservableList<Town> loadTowns() {
 
         ObservableList<Town> observableList = FXCollections.observableArrayList();
@@ -557,6 +634,7 @@ public class PatientController implements Initializable {
         }
         return observableList;
     }
+
     private ObservableList<TownShip> loadTownShips() {
         ObservableList<TownShip> observableList = FXCollections.observableArrayList();
 
@@ -566,11 +644,12 @@ public class PatientController implements Initializable {
         for (int i = 0; i < jsonTownShip.length(); i++) {
             JSONObject jsonObject = jsonTownShip.getJSONObject(i);
 
-            observableList.add(new TownShip(jsonObject.getString("name"),jsonObject.getString("_id")));
+            observableList.add(new TownShip(jsonObject.getString("name"), jsonObject.getString("_id")));
         }
         return observableList;
     }
-    private  ObservableList<String> loadContacts(){
+
+    private ObservableList<String> loadContacts() {
         ObservableList<String> observableList = FXCollections.observableArrayList();
 
         PatientModel patientModel = new PatientModel();
@@ -582,6 +661,7 @@ public class PatientController implements Initializable {
         }
         return observableList;
     }
+
     private ObservableList<Hospital> loadHospitals() {
         ObservableList<Hospital> observableList = FXCollections.observableArrayList();
 
@@ -595,6 +675,18 @@ public class PatientController implements Initializable {
         }
         return observableList;
     }
+
+    private ObservableList<String> loadCountries() {
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        JSONArray jsonCountries = HttpService.getCountries();
+        for (int i = 0; i < jsonCountries.length(); i++) {
+            JSONObject jsonObject = jsonCountries.getJSONObject(i);
+
+            observableList.add(jsonObject.getString("name"));
+        }
+        return observableList;
+    }
+
     private void onCancel(MouseEvent e) {
         jfxDialog.close();
     }

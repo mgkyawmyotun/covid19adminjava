@@ -24,15 +24,10 @@ import java.io.IOException;
 
 import java.net.URISyntaxException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.text.ParseException;
+
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Main extends Application {
     public static HashMap<String, Pane> screenMap = new HashMap<>();
@@ -58,9 +53,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        addScreen("dashboard",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
+        addScreen("admin",FXMLLoader.load(getClass().getResource("/views/adminpannel.fxml")));
+        addScreen("login",FXMLLoader.load(getClass().getResource("/views/login.fxml")));
+
         System.out.println("Hello");
-        sc = new Scene(getScreen("dashboard"));
+        sc = new Scene(getScreen("login"));
 
         stage = primaryStage;
 
@@ -79,7 +76,6 @@ public class Main extends Application {
     }
 
     public  static  Pane getScreen(String name){
-
         return screenMap.get(name);
     }
 

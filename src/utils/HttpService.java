@@ -102,7 +102,17 @@ public class HttpService {
         return  new JSONObject(data);
     }
 
-
+    public  static  JSONArray getCountries(){
+        String data = null;
+        try {
+            data = Jsoup
+                    .connect("https://restcountries.eu/rest/v2/all?fields=name")
+                    .ignoreContentType(true).execute().body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  new JSONArray(data);
+    }
 
 
 }

@@ -38,6 +38,9 @@ public class AdminController {
     private JFXButton townShip;
 
     @FXML
+    private JFXButton account;
+
+    @FXML
     private JFXButton hospital;
 
     @FXML
@@ -52,6 +55,22 @@ public class AdminController {
     @FXML
     void onAdmin(ActionEvent event) {
         new BounceIn(admin).play();
+    }
+    @FXML
+    void onAccount(ActionEvent event) {
+        new BounceIn(account).play();
+        borderPane.setCenter(loadAccount());
+    }
+    private Pane loadAccount() {
+        Pane screen = null;
+        try {
+            Main.addScreen("account", FXMLLoader.load(getClass().getResource("/views/components/myAccountView.fxml")));
+            screen = Main.getScreen("account");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
     }
 
     @FXML

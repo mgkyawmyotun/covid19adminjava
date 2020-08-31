@@ -3,6 +3,7 @@ package models;
 import com.sun.javaws.exceptions.ErrorCodeResponseException;
 import okhttp3.*;
 import org.json.JSONObject;
+import utils.Helper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,7 +23,8 @@ public class UserModel {
         okHttpClient = new OkHttpClient();
     }
     public JSONObject getUser() {
-        Request request = new Request.Builder().url(URI).build();
+        Request request = new Request.Builder().url(URI)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
         String response = null;
         try {
             response = okHttpClient.newCall(request).execute().body().string();

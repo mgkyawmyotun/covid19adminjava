@@ -64,4 +64,10 @@ public class Helper {
         String formattedDate = outputFormatter.format(date);
         return  formattedDate;
     }
+    public  static  LocalDate formatLocalDate(String s){
+        DateTimeFormatter input = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse(s, input);
+
+        return  date;
+    }
 }
