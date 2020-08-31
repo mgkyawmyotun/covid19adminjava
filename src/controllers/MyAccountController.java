@@ -54,11 +54,12 @@ public class MyAccountController {
     @FXML
     private Text titleText;
     private UserModel userModel;
-    private  JFXTextField editUsername;
-    private  JFXTextField editEmail;
+    private JFXTextField editUsername;
+    private JFXTextField editEmail;
     private JFXDialog jfxDialog;
 
     private JFXDialogLayout jfxDialogLayout;
+
     @FXML
     void onChangePassword(ActionEvent event) {
 
@@ -66,7 +67,6 @@ public class MyAccountController {
 
     @FXML
     void onEdit(ActionEvent event) {
-        System.out.println("Hello WOrld");
         editUsername.setText(username.getText());
         editEmail.setText(email.getText());
         jfxDialogLayout = new JFXDialogLayout();
@@ -76,18 +76,26 @@ public class MyAccountController {
         jfxDialog.setOverlayClose(false);
         jfxDialog.show();
     }
-    private  void  onEditAccount(MouseEvent e ){
+
+    private void onEditAccount(MouseEvent e) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("username", editUsername.getText());
+        jsonObject.put("email", editUsername.getText());
+        userModel =new UserModel();
+        userModel.changeUser(jsonObject.toString());
+
+    }
+
+    private void onCancel(MouseEvent e) {
         jfxDialog.close();
     }
-    private  void onCancel(MouseEvent e){
-        jfxDialog.close();
-    }
+
     @FXML
     void initialize() throws IOException {
         editPane = FXMLLoader.load(getClass().getResource("/views/components/editUser.fxml"));
-        HBox hBox = (HBox) editPane.getChildren().get(editPane.getChildren().size()-1);
-        hBox.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED,this::onCancel);
-        hBox.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED,this::onEditAccount);
+        HBox hBox = (HBox) editPane.getChildren().get(editPane.getChildren().size() - 1);
+        hBox.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
+        hBox.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEditAccount);
         editUsername = (JFXTextField) editPane.getChildren().get(0);
         editEmail = (JFXTextField) editPane.getChildren().get(1);
         spinner.setVisible(true
@@ -96,14 +104,14 @@ public class MyAccountController {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                 userModel=new UserModel();
-                 JSONObject user =userModel.getUser();
-                 System.out.println(user);
-                 username.setText(user.getString("username"));
-                 email.setText(user.getString("email"));
-                 spinner.setVisible(false);
-                 userBorder.setVisible(true);
-                 return null;
+                userModel = new UserModel();
+                JSONObject user = userModel.getUser();
+                System.out.println(user);
+                username.setText(user.getString("username"));
+                email.setText(user.getString("email"));
+                spinner.setVisible(false);
+                userBorder.setVisible(true);
+                return null;
             }
         };
 
