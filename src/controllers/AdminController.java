@@ -13,6 +13,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -105,14 +106,22 @@ public class AdminController {
             @Override
             protected Void call() throws Exception {
                 new BounceIn(logout).play();
-                Helper.deleteToken();
 
+                Platform.runLater(() ->{
+                    try {
+                        Helper.deleteToken();
+                        Main.stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/views/login.fxml"))));
+                        Main.stage.centerOnScreen();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
                 return null;
 
             }
         };
         new Thread(task).start();
-        task.setOnSucceeded((x) ->System.exit(0));
+
 
     }
 

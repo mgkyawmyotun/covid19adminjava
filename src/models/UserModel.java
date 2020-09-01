@@ -14,9 +14,11 @@ public class UserModel {
 
     JSONObject user;
     String token;
+
     public UserModel() {
         okHttpClient = new OkHttpClient();
     }
+
     public JSONObject getUser() {
         Request request = new Request.Builder().url(URI)
                 .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
@@ -43,40 +45,43 @@ public class UserModel {
         return new JSONObject(response);
     }
 
-    public  JSONObject loginUser(String json){
+    public JSONObject loginUser(String json) {
         RequestBody requestBody = RequestBody.create(JSON, json);
         Request request = new Request.Builder().url(URI + "/login").post(requestBody).build();
         String response = null;
 
         try {
-          Response response1=  okHttpClient.newCall(request).execute();
+            Response response1 = okHttpClient.newCall(request).execute();
 
 
-          if(response1.code()>=400) {
-                new JSONObject().put("error","Invalid Email or Password");
-          };
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", "Invalid Email or Password");
+            }
+            ;
 
-          response = response1.body().string();
+            response = response1.body().string();
         } catch (IOException e) {
             throw new Error();
         }
         System.out.println(response);
-        this.user =new JSONObject(response);
+        this.user = new JSONObject(response);
         System.out.println(response);
         return new JSONObject(response);
     }
-    public JSONObject changeUser(String json){
+
+    public JSONObject changeUser(String json) {
         RequestBody requestBody = RequestBody.create(JSON, json);
         Request request = new Request.Builder().url(URI).put(requestBody)
                 .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
         String response;
         try {
-            Response response1=  okHttpClient.newCall(request).execute();
+            Response response1 = okHttpClient.newCall(request).execute();
 
 
-            if(response1.code()>=400) {
-                new JSONObject().put("error","Invalid Email or Password");
-            };
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", "Invalid Email or Password");
+            }
+            ;
 
             response = response1.body().string();
         } catch (IOException e) {
@@ -86,22 +91,43 @@ public class UserModel {
         return new JSONObject(response);
 
 
+    }
+
+    public JSONObject changePassword(String json) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        Request request = new Request.Builder().url(URI + "/change").put(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+        String response;
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+            response = response1.body().string();
+        } catch (IOException e) {
+            throw new Error();
+        }
+
+        return new JSONObject(response);
 
     }
-    public void saveToken(){
 
-        Main.preferences.put("token",this.user.getString("token"));
+    public void saveToken() {
+
+        Main.preferences.put("token", this.user.getString("token"));
 
 
     }
-    public  String getToken(){
-        return  token;
+
+    public String getToken() {
+        return token;
     }
-    public  String getUserName(){
-        return  this.user.getString("username");
+
+    public String getUserName() {
+        return this.user.getString("username");
     }
-    public  String getEmail(){
-        return  this.user.getString("email");
-    };
+
+    public String getEmail() {
+        return this.user.getString("email");
+    }
+
+    ;
 
 }
