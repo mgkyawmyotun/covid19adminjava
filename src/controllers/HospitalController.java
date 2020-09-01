@@ -23,6 +23,7 @@ import models.TownModel;
 import models.HospitalModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.EmptyValidator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -78,8 +79,21 @@ public class HospitalController implements Initializable {
             editErrorText = (Text) editPane.getChildren().get(5);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
+            JFXButton editButton = (JFXButton) gp.getChildren().get(1);
+            EmptyValidator emptyValidator =new EmptyValidator();
+            edithospital.setValidators(emptyValidator);
+            edithospital.textProperty().addListener(c ->{
+                if (edithospital.validate()) {
+                    hospitalBool = true;
+                    if (hospitalBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
 
+                    editButton.setDisable(true);
+                }
+            });
+            editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -95,8 +109,22 @@ public class HospitalController implements Initializable {
             addErrorText = (Text) addPane.getChildren().get(5);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
+            JFXButton addButton = (JFXButton) gp.getChildren().get(1);
+            addButton.setDisable(true);
+            EmptyValidator emptyValidator = new EmptyValidator();
+            addhospital.setValidators(emptyValidator);
+            addhospital.textProperty().addListener(c -> {
+                if (addhospital.validate()) {
+                    hospitalBool = true;
+                    if (hospitalBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
 
+                    addButton.setDisable(true);
+                }
+            });
+            addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,10 +199,9 @@ public class HospitalController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-        System.out.println(towns.get(0));
+        hospitalBool=false;
         addtown.setItems(towns);
-        System.out.println(addtown.getItems());
-
+        addtown.getSelectionModel().select(0);
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Add Town"));
         jfxDialogLayout.setBody(addPane);
@@ -214,7 +241,7 @@ public class HospitalController implements Initializable {
 
     @FXML
     void onEdit(ActionEvent event) {
-
+        hospitalBool=false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob =  treeView.getRoot().getChildren();
 
@@ -252,6 +279,7 @@ public class HospitalController implements Initializable {
 
     }
     private  void onAdd(MouseEvent e ){
+        hospitalBool=false;
         JFXButton jfxButton =(JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         addSpinner.setVisible(true);
@@ -287,6 +315,7 @@ public class HospitalController implements Initializable {
     }
 
     private void onEdit(MouseEvent e) {
+        hospitalBool=false;
         JFXButton jfxButton =(JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         editSpinner.setVisible(true);

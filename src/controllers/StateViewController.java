@@ -168,7 +168,7 @@ public class StateViewController implements Initializable {
                         addButton.setDisable(false);
                     }
                 } else {
-                    System.out.println("Error");
+
                     addButton.setDisable(true);
                 }
             });
@@ -179,7 +179,7 @@ public class StateViewController implements Initializable {
                         addButton.setDisable(false);
                     }
                 } else {
-                    System.out.println("Error");
+
                     addButton.setDisable(true);
                 }
             });

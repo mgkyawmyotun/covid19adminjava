@@ -186,6 +186,14 @@ public class TownController implements Initializable {
         JSONArray jsonTown = townModel.getTowns();
         for (int i = 0; i < jsonTown.length(); i++) {
             JSONObject jsonObject = jsonTown.getJSONObject(i);
+            if(jsonObject.isNull("state")){
+                JSONObject jsonObject1 =new JSONObject();
+                jsonObject1.put("name","No State (Deleted)");
+                jsonObject1.put("_id","");
+                jsonObject.put("state",jsonObject1);
+            }
+
+
             JSONObject stateObject = jsonObject.getJSONObject("state");
             observableList.add(new Town(jsonObject.getString("name"), stateObject.getString("name"), stateObject.getString("_id"), jsonObject.getString("_id")));
         }

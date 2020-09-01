@@ -3,6 +3,8 @@ package controllers;
 import animatefx.animation.ZoomInDown;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import com.jfoenix.validation.IntegerValidator;
+import com.jfoenix.validation.base.ValidatorBase;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -14,12 +16,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import models.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import utils.DateValidator;
+import utils.EmptyValidator;
 import utils.Helper;
 import utils.HttpService;
 
@@ -93,8 +98,9 @@ public class PatientController implements Initializable {
     private ObservableList<String> countries;
     private JFXDialogLayout jfxDialogLayout;
 
-
-    @Override
+    private boolean patientBool;
+    private  boolean ageBool;
+      @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
         try {
@@ -117,8 +123,38 @@ public class PatientController implements Initializable {
             editSpinner = (JFXSpinner) editPane.getChildren().get(3);
             editErrorText = (Text) editPane.getChildren().get(4);
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
+            JFXButton editButton = (JFXButton) gp.getChildren().get(1);
+            editButton.setDisable(true);
+            EmptyValidator emptyValidator = new EmptyValidator();
+            editPatient.setValidators(emptyValidator);
+            editPatient.textProperty().addListener(c -> {
+                if (editPatient.validate()) {
+                    patientBool = true;
+                    if (patientBool && ageBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
 
+                    editButton.setDisable(true);
+                }
+            });
+            ValidatorBase validatorBase =new IntegerValidator();
+
+            editAge.setValidators(validatorBase);
+            editAge.textProperty().addListener(c -> {
+                if (editAge.validate()) {
+                    ageBool = true;
+                    if (patientBool && ageBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+
+                    editButton.setDisable(true);
+                }
+            });
+            editDate.setEditable(false);
+
+            editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,8 +180,39 @@ public class PatientController implements Initializable {
             addErrorText = (Text) addPane.getChildren().get(4);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
-            gp.getChildren().get(1).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
+            JFXButton addButton = (JFXButton) gp.getChildren().get(1);
+            addButton.setDisable(true);
+            EmptyValidator emptyValidator = new EmptyValidator();
+            addPatient.setValidators(emptyValidator);
+            addPatient.textProperty().addListener(c -> {
+                if (addPatient.validate()) {
+                    patientBool = true;
+                    if (patientBool && ageBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
 
+                    addButton.setDisable(true);
+                }
+            });
+            ValidatorBase validatorBase =new IntegerValidator();
+
+            addAge.setValidators(validatorBase);
+            addAge.textProperty().addListener(c -> {
+
+                if (addAge.validate()) {
+                    ageBool = true;
+                    if (patientBool && ageBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
+
+                    addButton.setDisable(true);
+                }
+            });
+            addDate.setEditable(false);
+
+            addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -285,9 +352,34 @@ public class PatientController implements Initializable {
         JSONArray jsonPatient = townModel.getPatients();
         for (int i = 0; i < jsonPatient.length(); i++) {
             JSONObject jsonObject = jsonPatient.getJSONObject(i);
+
+            if(jsonObject.isNull("town")){
+                JSONObject jsonObject1 =new JSONObject();
+                jsonObject1.put("name","No Town (Deleted)");
+                jsonObject1.put("_id","");
+                jsonObject.put("town",jsonObject1);
+            }
             JSONObject townObject = jsonObject.getJSONObject("town");
+            if(jsonObject.isNull("townShip")){
+                JSONObject jsonObject1 =new JSONObject();
+                jsonObject1.put("name","No townShip (Deleted)");
+                jsonObject1.put("_id","");
+                jsonObject.put("townShip",jsonObject1);
+            }
             JSONObject townShipObject = jsonObject.getJSONObject("townShip");
+            if(jsonObject.isNull("state")){
+                JSONObject jsonObject1 =new JSONObject();
+                jsonObject1.put("name","No state (Deleted)");
+                jsonObject1.put("_id","");
+                jsonObject.put("state",jsonObject1);
+            }
             JSONObject stateObject = jsonObject.getJSONObject("state");
+            if(jsonObject.isNull("hospital")){
+                JSONObject jsonObject1 =new JSONObject();
+                jsonObject1.put("name","No hospital (Deleted)");
+                jsonObject1.put("_id","");
+                jsonObject.put("hospital",jsonObject1);
+            }
             JSONObject hospitalObject = jsonObject.getJSONObject("hospital");
 
 
@@ -320,8 +412,8 @@ public class PatientController implements Initializable {
     @FXML
     void onAdd(ActionEvent event) {
 
-        //   addstate.setItems(towns);
-
+        ageBool =false;
+        patientBool =false;
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Add Patient"));
         jfxDialogLayout.setBody(addPane);
@@ -361,7 +453,8 @@ public class PatientController implements Initializable {
 
     @FXML
     void onEdit(ActionEvent event) {
-
+        ageBool =false;
+        patientBool =false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob = treeView.getRoot().getChildren();
 
@@ -461,6 +554,8 @@ public class PatientController implements Initializable {
     }
 
     private void onAdd(MouseEvent e) {
+        ageBool =false;
+        patientBool =false;
         JFXButton jfxButton = (JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         addSpinner.setVisible(true);
@@ -474,6 +569,7 @@ public class PatientController implements Initializable {
                 addPatientObject.put("gender", addGender.getSelectionModel().getSelectedItem());
                 addPatientObject.put("date", addDate.getValue());
                 addPatientObject.put("town_id", addTown.getSelectionModel().getSelectedItem()._id);
+
                 addPatientObject.put("state_id", addState.getSelectionModel().getSelectedItem()._id);
                 addPatientObject.put("towns_ship_id", addTownShip.getSelectionModel().getSelectedItem()._id);
                 addPatientObject.put("hospital_id", addHospital.getSelectionModel().getSelectedItem()._id);
@@ -491,7 +587,7 @@ public class PatientController implements Initializable {
                     jfxDialog.close();
 
                     addPatient.setText("");
-
+                    addAge.setText("");
                 });
                 return null;
             }
@@ -504,6 +600,8 @@ public class PatientController implements Initializable {
     }
 
     private void onEdit(MouseEvent e) {
+        ageBool =false;
+        patientBool =false;
         JFXButton jfxButton = (JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         editSpinner.setVisible(true);
