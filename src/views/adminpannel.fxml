@@ -43,7 +43,7 @@
                   </AnchorPane>
                   <JFXButton fx:id="state" onAction="#onState" prefHeight="82.0" prefWidth="330.0" text="      State   " textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <graphic>
                         <ImageView fitHeight="60.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
@@ -58,7 +58,7 @@
                   </JFXButton>
                   <JFXButton fx:id="town" alignment="CENTER" onAction="#onTown" prefHeight="82.0" prefWidth="330.0" text="    Town   " textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -73,7 +73,7 @@
                   </JFXButton>
                   <JFXButton fx:id="townShip" alignment="CENTER" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -88,7 +88,7 @@
                   </JFXButton>
                   <JFXButton fx:id="hospital" alignment="CENTER" layoutX="10.0" layoutY="349.0" onAction="#onHospital" prefHeight="82.0" prefWidth="330.0" text="   Hospital" textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -103,7 +103,7 @@
                   </JFXButton>
                   <JFXButton fx:id="patient" alignment="CENTER" layoutX="10.0" layoutY="429.0" onAction="#onPatient" prefHeight="82.0" prefWidth="330.0" text="     Patient" textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -116,9 +116,39 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
+                  <JFXButton fx:id="townShip1" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text="Case by State" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/townshipadd.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="townShip11" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text="Case by Town" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Images/townshipadd.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
                   <JFXButton fx:id="admin" alignment="CENTER" layoutX="10.0" layoutY="514.0" onAction="#onAdmin" prefHeight="82.0" prefWidth="330.0" text="    Admin " textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -133,7 +163,7 @@
                   </JFXButton>
                   <JFXButton fx:id="account" alignment="CENTER" layoutX="10.0" layoutY="631.0" onAction="#onAccount" prefHeight="82.0" prefWidth="330.0" text="   Account" textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -148,7 +178,7 @@
                   </JFXButton>
                   <JFXButton fx:id="logout" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onLogout" prefHeight="82.0" prefWidth="330.0" text="    Logout" textFill="WHITE">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />

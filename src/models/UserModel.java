@@ -2,6 +2,7 @@ package models;
 
 import controllers.Main;
 import okhttp3.*;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.Helper;
 
@@ -106,6 +107,20 @@ public class UserModel {
         }
 
         return new JSONObject(response);
+
+    }
+    public JSONArray getAllUsers(){
+        Request request =new Request.Builder().url(URI)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+        String response;
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+            response = response1.body().string();
+        } catch (IOException e) {
+            throw new Error();
+        }
+
+        return new JSONArray(response);
 
     }
 
