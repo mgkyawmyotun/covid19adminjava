@@ -55,7 +55,20 @@ public class AdminController {
 
     @FXML
     void onAdmin(ActionEvent event) {
+
         new BounceIn(admin).play();
+        borderPane.setCenter(loadAdmin());
+    }
+    private Pane loadAdmin() {
+        Pane screen = null;
+        try {
+            Main.addScreen("admin", FXMLLoader.load(getClass().getResource("/views/components/createAdminView.fxml")));
+            screen = Main.getScreen("admin");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
     }
     @FXML
     void onAccount(ActionEvent event) {

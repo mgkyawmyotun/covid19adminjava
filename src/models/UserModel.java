@@ -21,8 +21,10 @@ public class UserModel {
     }
 
     public JSONObject getUser() {
-        Request request = new Request.Builder().url(URI)
-                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+        Request request = new Request.Builder()
+                .url(URI)
+                .addHeader("Authorization", "Bearer " + Helper.getToken())
+                .build();
         String response = null;
         try {
             response = okHttpClient.newCall(request).execute().body().string();
@@ -36,7 +38,11 @@ public class UserModel {
 
     public JSONObject createUser(String json) {
         RequestBody requestBody = RequestBody.create(JSON, json);
-        Request request = new Request.Builder().url(URI + "/register").post(requestBody).build();
+        Request request = new Request.Builder()
+                .url(URI + "/register")
+                .post(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken())
+                .build();
         String response = null;
         try {
             response = okHttpClient.newCall(request).execute().body().string();
@@ -110,7 +116,8 @@ public class UserModel {
 
     }
     public JSONArray getAllUsers(){
-        Request request =new Request.Builder().url(URI)
+
+        Request request =new Request.Builder().url(URI+"/all")
                 .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
         String response;
         try {
