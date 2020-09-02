@@ -23,7 +23,7 @@ import models.StateModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.EmptyValidator;
-import utils.NumberValidator;
+import utils.CaseValidator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -87,9 +87,9 @@ public class CaseStateController  implements Initializable {
             JFXButton editButton = (JFXButton) gp.getChildren().get(1);
             EmptyValidator emptyValidator = new EmptyValidator();
 
-            NumberValidator numberValidator = new NumberValidator();
-            editTotalCase.setValidators(numberValidator);
-            editTotalDeath.setValidators(numberValidator);
+            CaseValidator caseValidator = new CaseValidator();
+            editTotalCase.setValidators(caseValidator,emptyValidator);
+            editTotalDeath.setValidators(caseValidator,emptyValidator);
             editTotalCase.textProperty().addListener(c -> {
                 if (editTotalCase.validate()) {
                     totalDeathBool = true;
@@ -131,9 +131,10 @@ public class CaseStateController  implements Initializable {
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton addButton = (JFXButton) gp.getChildren().get(1);
             addButton.setDisable(true);
-            NumberValidator numberValidator = new NumberValidator();
-            addTotalDeath.setValidators(numberValidator);
-            addTotalDeath.setValidators(numberValidator);
+            EmptyValidator emptyValidator =new EmptyValidator();
+            CaseValidator caseValidator = new CaseValidator();
+            addTotalDeath.setValidators(caseValidator,emptyValidator);
+            addTotalCase.setValidators(caseValidator,emptyValidator);
             addTotalDeath.textProperty().addListener(c -> {
                 if (addTotalDeath.validate()) {
                     totalDeathBool = true;
@@ -145,8 +146,8 @@ public class CaseStateController  implements Initializable {
                     addButton.setDisable(true);
                 }
             });
-            addTotalDeath.textProperty().addListener(c -> {
-                if (addTotalDeath.validate()) {
+            addTotalCase.textProperty().addListener(c -> {
+                if (addTotalCase.validate()) {
                     totalCaseBool = true;
                     if ( totalDeathBool && totalCaseBool) {
                         addButton.setDisable(false);
