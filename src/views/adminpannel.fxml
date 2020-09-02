@@ -194,6 +194,25 @@
                </children>
             </VBox>
          </left>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: BDBDBD;" BorderPane.alignment="CENTER">
+               <children>
+                  <Text layoutX="84.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-fill: 03A9F4;" text="Welcome From Admin Pannel" wrappingWidth="989.6708984375">
+                     <font>
+                        <Font size="72.0" />
+                     </font>
+                     <fill>
+                        <LinearGradient endX="1.0" endY="1.0" startX="0.8446601941747572">
+                           <stops>
+                              <Stop color="#d37171" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </fill>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </center>
       </BorderPane>
    </children>
 </StackPane>

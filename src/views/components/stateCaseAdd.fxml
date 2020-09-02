@@ -47,7 +47,7 @@
             </rowConstraints>
             <children>
                 <JFXButton prefHeight="53.0" prefWidth="98.0" text="Cancel" />
-                <JFXButton prefHeight="54.0" prefWidth="98.0" text="Edit" GridPane.columnIndex="1" />
+                <JFXButton prefHeight="54.0" prefWidth="98.0" text="Add" GridPane.columnIndex="1" />
             </children>
         </GridPane>
     </children>

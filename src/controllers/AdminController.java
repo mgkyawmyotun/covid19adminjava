@@ -65,9 +65,21 @@ public class AdminController {
 
     @FXML
     void onCaseTown(ActionEvent event) {
+        new BounceIn(caseTown).play();
+        borderPane.setCenter(loadTownCase());
+    }
+    private Pane loadTownCase() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("caseTown", FXMLLoader.load(getClass().getResource("/views/components/TownCaseView.fxml")));
+            screen = Main.getScreen("caseTown");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
 
     }
-
     private Pane loadCaseState() {
         Pane screen = null;
         try {

@@ -119,4 +119,89 @@ public class TownModel {
        return new JSONArray(response);
 
     }
+
+    public JSONObject editTownCase(String json, String _id) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+
+        Request request = new Request.Builder().url(URI + "/case/town/" + _id).put(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new Error();
+        }
+        return new JSONObject(response);
+
+    }
+
+    public void addTownCase(String json) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+
+        Request request = new Request.Builder().url(URI + "/case/town").post(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new Error();
+        }
+    }
+
+    public void deleteTownCase(String _id) {
+
+        Request request = new Request.Builder().url(URI + "/case/town/" + _id).delete()
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+        } catch (IOException e) {
+            throw new Error();
+        }
+    }
+
+    public JSONArray getTownCases() {
+        Request request = new Request.Builder().url(URI + "/case/town").build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new JSONArray(response);
+    }
+
 }
