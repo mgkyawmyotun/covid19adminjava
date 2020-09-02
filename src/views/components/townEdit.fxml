@@ -27,6 +27,16 @@
          </font>
       </Label>
       <JFXComboBox prefHeight="36.0" prefWidth="326.0" />
+      <JFXTextField labelFloat="true" prefHeight="50.0" prefWidth="350.0" promptText="Latitude">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField labelFloat="true" prefHeight="50.0" prefWidth="350.0" promptText="Longitude">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXTextField>
         <JFXSpinner prefHeight="54.0" prefWidth="326.0" visible="false" />
         <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error Message" textAlignment="CENTER" visible="false" wrappingWidth="344.470703125">
             <font>

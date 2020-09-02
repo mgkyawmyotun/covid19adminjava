@@ -58,8 +58,8 @@ public class CreateAdminController implements Initializable {
     private JFXTextField username;
     private JFXTextField email;
     private JFXPasswordField passwordField;
-    private  JFXSpinner spinner;
-    private  Text errorText;
+    private JFXSpinner spinner;
+    private Text errorText;
     private boolean usernameBool;
     private boolean emailBool;
     private boolean passwordBool;
@@ -72,8 +72,8 @@ public class CreateAdminController implements Initializable {
             username = (JFXTextField) addPane.getChildren().get(0);
             email = (JFXTextField) addPane.getChildren().get(1);
             passwordField = (JFXPasswordField) addPane.getChildren().get(2);
-            spinner =(JFXSpinner) addPane.getChildren().get(3);
-            errorText =(Text) addPane.getChildren().get(4);
+            spinner = (JFXSpinner) addPane.getChildren().get(3);
+            errorText = (Text) addPane.getChildren().get(4);
             HBox hBox1 = (HBox) addPane.getChildren().get(addPane.getChildren().size() - 1);
             hBox1.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton createButton = (JFXButton) hBox1.getChildren().get(1);
@@ -178,9 +178,9 @@ public class CreateAdminController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-        usernameBool =false;
-        passwordBool =false;
-        emailBool =false;
+        usernameBool = false;
+        passwordBool = false;
+        emailBool = false;
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Add User"));
         jfxDialogLayout.setBody(addPane);
@@ -199,19 +199,18 @@ public class CreateAdminController implements Initializable {
                 userObject.put("username", username.getText());
                 userObject.put("email", email.getText());
                 userObject.put("password", passwordField.getText());
-                System.out.println(userObject);
+
                 UserModel userModel = new UserModel();
                 JSONObject jsonObject = userModel.createUser(userObject.toString());
                 System.out.println(jsonObject);
-                if(!jsonObject.isNull("error")){
-                    Platform.runLater(() ->{
+                if (!jsonObject.isNull("error")) {
+                    Platform.runLater(() -> {
                         errorText.setText(jsonObject.getString("error"));
                         errorText.setVisible(true);
                         spinner.setVisible(false);
                     });
-                }
-                else{
-                    Platform.runLater(() ->{
+                } else {
+                    Platform.runLater(() -> {
                         spinner.setVisible(false);
                         jfxDialog.close();
                         username.setText("");
@@ -242,8 +241,6 @@ public class CreateAdminController implements Initializable {
         }
 
     }
-
-
 
 
     private void onCancel(MouseEvent e) {

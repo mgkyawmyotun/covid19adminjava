@@ -27,6 +27,7 @@ import models.TownModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.EmptyValidator;
+import utils.NumberValidator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,7 +70,11 @@ public class TownController implements Initializable {
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
-    boolean townBool = false;
+
+    private JFXTextField addLat, addLong;
+
+    private JFXTextField editLat, editLong;
+    private boolean latBool, longBool, townBool = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,15 +85,16 @@ public class TownController implements Initializable {
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
             edittown = (JFXTextField) editPane.getChildren().get(1);
             editstate = (JFXComboBox) editPane.getChildren().get(3);
-
-            editSpinner = (JFXSpinner) editPane.getChildren().get(4);
-            editErrorText = (Text) editPane.getChildren().get(5);
+            editLat = (JFXTextField) editPane.getChildren().get(4);
+            editLong = (JFXTextField) editPane.getChildren().get(5);
+            editSpinner = (JFXSpinner) editPane.getChildren().get(6);
+            editErrorText = (Text) editPane.getChildren().get(7);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton editButton = (JFXButton) gp.getChildren().get(1);
-            EmptyValidator emptyValidator =new EmptyValidator();
+            EmptyValidator emptyValidator = new EmptyValidator();
             edittown.setValidators(emptyValidator);
-            edittown.textProperty().addListener(c ->{
+            edittown.textProperty().addListener(c -> {
                 if (edittown.validate()) {
                     townBool = true;
                     if (townBool) {
@@ -99,6 +105,32 @@ public class TownController implements Initializable {
                     editButton.setDisable(true);
                 }
             });
+            NumberValidator numberValidator = new NumberValidator();
+            editLat.setValidators(numberValidator);
+            editLong.setValidators(numberValidator);
+            editLat.textProperty().addListener(c -> {
+                if (editLat.validate()) {
+                    latBool = true;
+                    if (townBool && latBool && longBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+
+                    editButton.setDisable(true);
+                }
+            });
+            editLong.textProperty().addListener(c -> {
+                if (editLong.validate()) {
+                    longBool = true;
+                    if (townBool && latBool && longBool) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+
+                    editButton.setDisable(true);
+                }
+            });
+
             editButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onEdit);
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,9 +142,10 @@ public class TownController implements Initializable {
             GridPane gp = (GridPane) addPane.getChildren().get(addPane.getChildren().size() - 1);
             addtown = (JFXTextField) addPane.getChildren().get(1);
             addstate = (JFXComboBox) addPane.getChildren().get(3);
-
-            addSpinner = (JFXSpinner) addPane.getChildren().get(4);
-            addErrorText = (Text) addPane.getChildren().get(5);
+            addLat = (JFXTextField) addPane.getChildren().get(4);
+            addLong = (JFXTextField) addPane.getChildren().get(5);
+            addSpinner = (JFXSpinner) addPane.getChildren().get(6);
+            addErrorText = (Text) addPane.getChildren().get(7);
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton addButton = (JFXButton) gp.getChildren().get(1);
             addButton.setDisable(true);
@@ -121,7 +154,7 @@ public class TownController implements Initializable {
             addtown.textProperty().addListener(c -> {
                 if (addtown.validate()) {
                     townBool = true;
-                    if (townBool) {
+                    if (townBool && latBool && longBool) {
                         addButton.setDisable(false);
                     }
                 } else {
@@ -129,6 +162,32 @@ public class TownController implements Initializable {
                     addButton.setDisable(true);
                 }
             });
+            NumberValidator numberValidator = new NumberValidator();
+            addLat.setValidators(numberValidator);
+            addLong.setValidators(numberValidator);
+            addLat.textProperty().addListener(c -> {
+                if (addLat.validate()) {
+                    latBool = true;
+                    if (townBool && latBool && longBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
+
+                    addButton.setDisable(true);
+                }
+            });
+            addLong.textProperty().addListener(c -> {
+                if (addLong.validate()) {
+                    longBool = true;
+                    if (townBool && latBool && longBool) {
+                        addButton.setDisable(false);
+                    }
+                } else {
+
+                    addButton.setDisable(true);
+                }
+            });
+
             addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
 
         } catch (IOException e) {
@@ -154,7 +213,11 @@ public class TownController implements Initializable {
 
         JFXTreeTableColumn<Town, String> stateCol = new JFXTreeTableColumn<>("State Name");
         stateCol.setCellValueFactory(param -> param.getValue().getValue().state_name);
+        JFXTreeTableColumn<Town, String> lonCol = new JFXTreeTableColumn<>("Latitude");
+        lonCol.setCellValueFactory(param -> param.getValue().getValue().lon);
 
+        JFXTreeTableColumn<Town, String> latCol = new JFXTreeTableColumn<>("Longitude");
+        latCol.setCellValueFactory(param -> param.getValue().getValue().lat);
         Task<Void> tableRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -164,7 +227,7 @@ public class TownController implements Initializable {
                 addButton.setDisable(false);
                 Platform.runLater(() -> {
                     final TreeItem<Town> root = new RecursiveTreeItem<Town>(towns, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(townName, stateCol);
+                    treeView.getColumns().setAll(townName, stateCol, lonCol, latCol);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
                     tableLoading.setVisible(false);
@@ -186,16 +249,17 @@ public class TownController implements Initializable {
         JSONArray jsonTown = townModel.getTowns();
         for (int i = 0; i < jsonTown.length(); i++) {
             JSONObject jsonObject = jsonTown.getJSONObject(i);
-            if(jsonObject.isNull("state")){
-                JSONObject jsonObject1 =new JSONObject();
-                jsonObject1.put("name","No State (Deleted)");
-                jsonObject1.put("_id","");
-                jsonObject.put("state",jsonObject1);
+            if (jsonObject.isNull("state")) {
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("name", "No State (Deleted)");
+                jsonObject1.put("_id", "");
+                jsonObject.put("state", jsonObject1);
             }
-
+            JSONArray location = jsonObject.getJSONArray("location");
+            System.out.println(location);
 
             JSONObject stateObject = jsonObject.getJSONObject("state");
-            observableList.add(new Town(jsonObject.getString("name"), stateObject.getString("name"), stateObject.getString("_id"), jsonObject.getString("_id")));
+            observableList.add(new Town(jsonObject.getString("name"), location.get(0) + "", location.get(1) + "", stateObject.getString("name"), stateObject.getString("_id"), jsonObject.getString("_id")));
         }
         return observableList;
     }
@@ -207,6 +271,8 @@ public class TownController implements Initializable {
     @FXML
     void onAdd(ActionEvent event) {
         townBool = false;
+        longBool = false;
+        latBool = false;
         addstate.setItems(states);
         addstate.getSelectionModel().select(0);
         jfxDialogLayout = new JFXDialogLayout();
@@ -249,6 +315,8 @@ public class TownController implements Initializable {
     @FXML
     void onEdit(ActionEvent event) {
         townBool = false;
+        longBool = false;
+        latBool = false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob = treeView.getRoot().getChildren();
 
@@ -259,6 +327,8 @@ public class TownController implements Initializable {
         editstate.setItems(states);
 
         editstate.getSelectionModel().select(state);
+        editLong.setText(seletedTown.lat.getValue());
+        editLat.setText(seletedTown.lon.getValue());
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Edit State"));
         jfxDialogLayout.setBody(editPane);
@@ -274,20 +344,24 @@ public class TownController implements Initializable {
 
         StringProperty name;
         StringProperty state_name;
+        StringProperty lat;
+        StringProperty lon;
         String _id;
         String state_id;
 
-        public Town(String name, String state_name, String state_id, String _id) {
+        public Town(String name, String lat, String lon, String state_name, String state_id, String _id) {
             this.name = new SimpleStringProperty(name);
             this.state_name = new SimpleStringProperty(state_name);
             this.state_id = state_id;
+            this.lon = new SimpleStringProperty(lon);
+            this.lat = new SimpleStringProperty(lat);
             this._id = _id;
         }
 
     }
 
     private void onAdd(MouseEvent e) {
-        townBool = false;
+
         JFXButton jfxButton = (JFXButton) e.getTarget();
         jfxButton.setDisable(true);
         addSpinner.setVisible(true);
@@ -296,7 +370,10 @@ public class TownController implements Initializable {
             protected Void call() throws Exception {
                 JSONObject addTownObject = new JSONObject();
                 addTownObject.put("name", addtown.getText());
-
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(Double.parseDouble(addLat.getText()));
+                jsonArray.put(Double.parseDouble(addLong.getText()));
+                addTownObject.put("location", jsonArray);
                 addTownObject.put("state_id", addstate.getSelectionModel().getSelectedItem()._id);
                 TownModel townModel = new TownModel();
 
@@ -331,14 +408,19 @@ public class TownController implements Initializable {
         Task<Void> editRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject editStateObject = new JSONObject();
-                editStateObject.put("name", edittown.getText());
+                JSONObject editTownObject = new JSONObject();
+                editTownObject.put("name", edittown.getText());
 
-                editStateObject.put("_id", seletedTown._id);
-                editStateObject.put("state", editstate.getSelectionModel().getSelectedItem()._id);
+                editTownObject.put("_id", seletedTown._id);
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(Double.parseDouble(editLat.getText()));
+                jsonArray.put(Double.parseDouble(editLong.getText()));
+                editTownObject.put("location", jsonArray);
+
+                editTownObject.put("state", editstate.getSelectionModel().getSelectedItem()._id);
                 TownModel townModel = new TownModel();
 
-                townModel.editTown(editStateObject.toString(), seletedTown._id);
+                townModel.editTown(editTownObject.toString(), seletedTown._id);
 
                 Platform.runLater(() -> {
 
