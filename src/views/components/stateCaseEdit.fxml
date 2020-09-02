@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="390.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label layoutX="30.0" layoutY="30.0" prefHeight="20.0" prefWidth="585.0" text="State Name" textAlignment="CENTER">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <JFXComboBox prefHeight="36.0" prefWidth="326.0" />
+        <JFXTextField prefHeight="50.0" prefWidth="350.0" promptText="totalCase">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </JFXTextField>
+        <JFXTextField prefHeight="50.0" prefWidth="350.0" promptText="totalDeath">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </JFXTextField>
+        <JFXSpinner prefHeight="54.0" prefWidth="326.0" visible="false" />
+        <Text fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Error Message" textAlignment="CENTER" visible="false" wrappingWidth="344.470703125">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Text>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <JFXButton prefHeight="53.0" prefWidth="98.0" text="Cancel" />
+                <JFXButton prefHeight="54.0" prefWidth="98.0" text="Edit" GridPane.columnIndex="1" />
+            </children>
+        </GridPane>
+    </children>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

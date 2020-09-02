@@ -116,7 +116,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="townShip1" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text="Case by State" textFill="WHITE">
+                  <JFXButton fx:id="caseState" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onCaseState" prefHeight="82.0" prefWidth="330.0" text="Case by State" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -131,7 +131,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="townShip11" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text="Case by Town" textFill="WHITE">
+                  <JFXButton fx:id="caseTown" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onCaseTown" prefHeight="82.0" prefWidth="330.0" text="Case by Town" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

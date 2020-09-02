@@ -63,7 +63,7 @@ public class StateModel {
 
     }
 
-    public  void deleteState(String _id){
+    public void deleteState(String _id) {
 
         Request request = new Request.Builder().url(URI + "state/" + _id).delete()
                 .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
@@ -84,10 +84,11 @@ public class StateModel {
             throw new Error();
         }
     }
-    public  void addState(String json){
+
+    public void addState(String json) {
         RequestBody requestBody = RequestBody.create(JSON, json);
 
-        Request request = new Request.Builder().url(URI + "state" ).post(requestBody)
+        Request request = new Request.Builder().url(URI + "state").post(requestBody)
                 .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
 
         String response = null;
@@ -106,6 +107,90 @@ public class StateModel {
         } catch (IOException e) {
             throw new Error();
         }
+    }
+
+    public JSONObject editStateCase(String json, String _id) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+
+        Request request = new Request.Builder().url(URI + "/case/state/" + _id).put(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new Error();
+        }
+        return new JSONObject(response);
+
+    }
+
+    public void addStateCase(String json) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+
+        Request request = new Request.Builder().url(URI + "/case/state").post(requestBody)
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            throw new Error();
+        }
+    }
+
+    public void deleteStateCase(String _id) {
+
+        Request request = new Request.Builder().url(URI + "/case/state/" + _id).delete()
+                .addHeader("Authorization", "Bearer " + Helper.getToken()).build();
+
+        String response = null;
+
+        try {
+            Response response1 = okHttpClient.newCall(request).execute();
+
+
+            if (response1.code() >= 400) {
+                new JSONObject().put("error", " LOL i don't have time ");
+            }
+            ;
+
+            response = response1.body().string();
+        } catch (IOException e) {
+            throw new Error();
+        }
+    }
+
+    public JSONArray getStateCases() {
+        Request request = new Request.Builder().url(URI + "/case/state").build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+            System.out.println(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new JSONArray(response);
     }
 
 }

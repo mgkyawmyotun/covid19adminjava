@@ -52,7 +52,34 @@ public class AdminController {
 
     @FXML
     private JFXButton logout;
+    @FXML
+    private JFXButton caseState;
 
+    @FXML
+    private JFXButton caseTown;
+    @FXML
+    void onCaseState(ActionEvent event) {
+        new BounceIn(caseState).play();
+        borderPane.setCenter(loadCaseState());
+    }
+
+    @FXML
+    void onCaseTown(ActionEvent event) {
+
+    }
+
+    private Pane loadCaseState() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("caseState", FXMLLoader.load(getClass().getResource("/views/components/StateCaseView.fxml")));
+            screen = Main.getScreen("caseState");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
+    }
     @FXML
     void onAdmin(ActionEvent event) {
 
