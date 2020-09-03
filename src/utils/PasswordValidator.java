@@ -18,7 +18,7 @@ public class PasswordValidator extends ValidatorBase {
         TextInputControl textField = (TextInputControl)this.srcControl.get();
         String text = textField.getText();
         this.hasErrors.set(true);
-        if (text.length() > 6) {
+        if (text.length() > 5) {
             this.hasErrors.set(false);
         }
 

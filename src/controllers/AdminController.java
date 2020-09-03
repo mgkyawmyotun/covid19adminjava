@@ -1,6 +1,9 @@
 package controllers;
 
 import animatefx.animation.BounceIn;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
+import animatefx.animation.ZoomInDown;
 import com.jfoenix.controls.JFXButton;
 
 import java.io.IOException;
@@ -8,16 +11,21 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXSpinner;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import utils.Helper;
 
 public class AdminController {
@@ -267,7 +275,74 @@ public class AdminController {
 
     }
     @FXML
-    void initialize() {
-        System.out.println("Admin Pannel");
-    }
+    private Text w;
+
+    @FXML
+    private Text c;
+
+    @FXML
+    private Text e;
+
+    @FXML
+    private Text l;
+
+    @FXML
+    private Text o;
+
+    @FXML
+    private Text m;
+
+    @FXML
+    private Text ee;
+    @FXML
+    private ImageView covid1;
+    @FXML
+    private ImageView covid2;
+
+    @FXML
+
+    void initialize(){
+        goToByRotating(covid1,covid2);
+        }
+        private  void goToByRotating(ImageView node1, ImageView node2){
+            RotateTransition rotateTransition =new RotateTransition(Duration.millis(1000),node1);
+            rotateTransition.setFromAngle(0);
+            rotateTransition.setToAngle(360);
+            rotateTransition.setAutoReverse(true);
+            rotateTransition.setCycleCount(Transition.INDEFINITE);
+             TranslateTransition translateTransition =new TranslateTransition(Duration.millis(1000),node2);
+
+            translateTransition.setToX(node1.getLayoutX()-node2.getLayoutX()
+            );
+            translateTransition.setToY(node1.getLayoutY()-100);
+            translateTransition.setAutoReverse(true);
+            translateTransition.setCycleCount(2);
+            translateTransition.setInterpolator(Interpolator.EASE_BOTH);
+            PauseTransition pauseTransition =new PauseTransition();
+            pauseTransition.setDuration(Duration.millis(1000));
+
+
+
+
+            RotateTransition rotateTransition1 =new RotateTransition(Duration.millis(1000),node2);
+            rotateTransition1.setFromAngle(0);
+            rotateTransition1.setToAngle(360);
+            rotateTransition1.setAutoReverse(true);
+            rotateTransition1.setCycleCount(Transition.INDEFINITE);
+
+
+            TranslateTransition translateTransition1 =new TranslateTransition(Duration.millis(1000),node1);
+
+            translateTransition1.setToX(node2.getLayoutX() -100);
+            translateTransition1.setToY((node2.getLayoutY())-node1.getLayoutY());
+            translateTransition1.setAutoReverse(true);
+            translateTransition1.setCycleCount(2);
+            translateTransition.setInterpolator(Interpolator.EASE_BOTH);
+            ParallelTransition parallelTransition =new ParallelTransition(rotateTransition,rotateTransition1);
+
+            parallelTransition.play();
+            ParallelTransition parallelTransition1 =new ParallelTransition(translateTransition,pauseTransition,translateTransition1);
+            parallelTransition1.pause();
+            parallelTransition1.play();
+        }
 }

@@ -3,8 +3,6 @@ package controllers;
 import animatefx.animation.ZoomInDown;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import com.jfoenix.validation.StringLengthValidator;
-import com.jfoenix.validation.base.ValidatorBase;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -67,6 +65,7 @@ public class CreateAdminController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        
         try {
             addPane = FXMLLoader.load(getClass().getResource("/views/components/createUser.fxml"));
             username = (JFXTextField) addPane.getChildren().get(0);

@@ -74,13 +74,9 @@ public class LoginController {
     }
 
     @FXML
-    void onBack(MouseEvent event) {
-
-    }
-
-    @FXML
-    void onForget(MouseEvent event) {
-
+    void onForget(MouseEvent event) throws IOException {
+        Main.stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/views/forget.fxml"))));
+        Main.stage.centerOnScreen();
     }
 
     @FXML

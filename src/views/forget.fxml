@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="669.0" prefWidth="1021.0" styleClass="main" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ForgetPasswordController">
+   <children>
+      <Text fill="WHITE" layoutX="64.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter your email address">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <JFXTextField fx:id="email" focusColor="WHITE" labelFloat="true" layoutX="64.0" layoutY="152.0" prefHeight="28.0" prefWidth="391.0" promptText="Email" style="-fx-text-inner-color: white;" unFocusColor="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </JFXTextField>
+      <JFXButton fx:id="request" layoutX="311.0" layoutY="250.0" onAction="#onRequest" prefHeight="51.0" prefWidth="147.0" styleClass="login" text="Request" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Text fill="WHITE" layoutX="625.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text=".">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="659.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Check Your Email Inbox">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="625.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text=".">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="659.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Token Only Valid 2 minute ">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="659.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You can rerequest token">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="630.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text=".">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <JFXTextField fx:id="token" focusColor="WHITE" labelFloat="true" layoutX="64.0" layoutY="364.0" prefHeight="51.0" prefWidth="346.0" promptText="Token" style="-fx-text-inner-color: white;" unFocusColor="WHITE" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXTextField>
+      <JFXButton fx:id="enter" layoutX="335.0" layoutY="570.0" onAction="#onToken" prefHeight="32.0" prefWidth="120.0" styleClass="cancel" text="Enter" textFill="WHITE" visible="false">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Text fx:id="error" fill="#f80000" layoutX="615.0" layoutY="424.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error " visible="false" wrappingWidth="391.0000025294721">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <JFXTextField fx:id="newPassword" focusColor="WHITE" labelFloat="true" layoutX="64.0" layoutY="467.0" prefHeight="51.0" prefWidth="346.0" promptText="New Password" style="-fx-text-inner-color: white;" unFocusColor="WHITE" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXTextField>
+      <JFXSpinner fx:id="spinner" layoutX="763.0" layoutY="301.0" prefHeight="51.0" prefWidth="73.0" visible="false" />
+   </children>
+</AnchorPane>

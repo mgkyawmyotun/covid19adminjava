@@ -132,24 +132,40 @@ public class UserModel {
     }
 
     public void saveToken() {
-
         Main.preferences.put("token", this.user.getString("token"));
-
-
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getUserName() {
-        return this.user.getString("username");
     }
 
     public String getEmail() {
         return this.user.getString("email");
     }
 
-    ;
+    public JSONObject forgetPassword(String json) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(URI + "/forget")
+                .post(requestBody)
+                .build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new JSONObject(response);
+    }
 
+    public JSONObject resetPassword(String json) {
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(URI + "/new")
+                .post(requestBody)
+                .build();
+        String response = null;
+        try {
+            response = okHttpClient.newCall(request).execute().body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new JSONObject(response);
+    }
 }
