@@ -387,6 +387,8 @@ public class TownController implements Initializable {
                     jfxDialog.close();
 
                     addtown.setText("");
+                    addLat.setText("");
+                    addLong.setText("");
 
                 });
                 return null;
