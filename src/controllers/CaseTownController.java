@@ -66,10 +66,10 @@ public class CaseTownController implements Initializable {
     private Text editErrorText;
     private JFXSpinner editSpinner;
 
-    private JFXTextField addTotalDeath, addTotalCase;
+    private JFXTextField addTotalDeath, addTotalCase,addRecovered;
 
-    private JFXTextField editTotalCase, editTotalDeath;
-    private boolean totalDeathBool, totalCaseBool;
+    private JFXTextField editTotalCase, editTotalDeath,editRecovered;
+    private boolean totalDeathBool, totalCaseBool,recoveredBol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,20 +80,22 @@ public class CaseTownController implements Initializable {
             editTownCase = (JFXComboBox) editPane.getChildren().get(1);
             editTotalCase = (JFXTextField) editPane.getChildren().get(2);
             editTotalDeath = (JFXTextField) editPane.getChildren().get(3);
-            editSpinner = (JFXSpinner) editPane.getChildren().get(4);
-            editErrorText = (Text) editPane.getChildren().get(5);
+            editRecovered =(JFXTextField) editPane.getChildren().get(4);
+            editSpinner = (JFXSpinner) editPane.getChildren().get(5);
+            editErrorText = (Text) editPane.getChildren().get(6);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton editButton = (JFXButton) gp.getChildren().get(1);
             EmptyValidator emptyValidator = new EmptyValidator();
 
             CaseValidator caseValidator = new CaseValidator();
-            editTotalCase.setValidators(caseValidator, emptyValidator);
-            editTotalDeath.setValidators(caseValidator, emptyValidator);
+            editTotalCase.setValidators(caseValidator,emptyValidator);
+            editTotalDeath.setValidators(caseValidator,emptyValidator);
+            editRecovered.setValidators(caseValidator,emptyValidator);
             editTotalCase.textProperty().addListener(c -> {
                 if (editTotalCase.validate()) {
                     totalDeathBool = true;
-                    if (totalDeathBool && totalCaseBool) {
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
                         editButton.setDisable(false);
                     }
                 } else {
@@ -104,7 +106,18 @@ public class CaseTownController implements Initializable {
             editTotalDeath.textProperty().addListener(c -> {
                 if (editTotalDeath.validate()) {
                     totalCaseBool = true;
-                    if (totalDeathBool && totalCaseBool) {
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+
+                    editButton.setDisable(true);
+                }
+            });
+            editRecovered.textProperty().addListener(c -> {
+                if (editRecovered.validate()) {
+                    recoveredBol = true;
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
                         editButton.setDisable(false);
                     }
                 } else {
@@ -126,19 +139,21 @@ public class CaseTownController implements Initializable {
             addTown = (JFXComboBox) addPane.getChildren().get(1);
             addTotalCase = (JFXTextField) addPane.getChildren().get(2);
             addTotalDeath = (JFXTextField) addPane.getChildren().get(3);
-            addSpinner = (JFXSpinner) addPane.getChildren().get(4);
-            addErrorText = (Text) addPane.getChildren().get(5);
+            addRecovered =(JFXTextField) addPane.getChildren().get(4);
+            addSpinner = (JFXSpinner) addPane.getChildren().get(5);
+            addErrorText = (Text) addPane.getChildren().get(6);
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton addButton = (JFXButton) gp.getChildren().get(1);
             addButton.setDisable(true);
             EmptyValidator emptyValidator = new EmptyValidator();
             CaseValidator caseValidator = new CaseValidator();
-            addTotalDeath.setValidators(caseValidator, emptyValidator);
-            addTotalCase.setValidators(caseValidator, emptyValidator);
+            addTotalDeath.setValidators(caseValidator,emptyValidator);
+            addTotalCase.setValidators(caseValidator,emptyValidator);
+            addRecovered.setValidators(caseValidator,emptyValidator);
             addTotalDeath.textProperty().addListener(c -> {
                 if (addTotalDeath.validate()) {
                     totalDeathBool = true;
-                    if (totalDeathBool && totalCaseBool) {
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
                         addButton.setDisable(false);
                     }
                 } else {
@@ -149,7 +164,7 @@ public class CaseTownController implements Initializable {
             addTotalCase.textProperty().addListener(c -> {
                 if (addTotalCase.validate()) {
                     totalCaseBool = true;
-                    if (totalDeathBool && totalCaseBool) {
+                    if (  totalDeathBool && totalCaseBool &&recoveredBol) {
                         addButton.setDisable(false);
                     }
                 } else {
@@ -157,7 +172,17 @@ public class CaseTownController implements Initializable {
                     addButton.setDisable(true);
                 }
             });
+            addRecovered.textProperty().addListener(c -> {
+                if (addRecovered.validate()) {
+                    recoveredBol = true;
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
+                        addButton.setDisable(false);
+                    }
+                } else {
 
+                    addButton.setDisable(true);
+                }
+            });
             addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
 
         } catch (IOException e) {
@@ -185,6 +210,8 @@ public class CaseTownController implements Initializable {
 
         JFXTreeTableColumn<TownCase, String> totalDeathCol = new JFXTreeTableColumn<>("Total Death");
         totalDeathCol.setCellValueFactory(param -> param.getValue().getValue().totalDeath);
+         JFXTreeTableColumn<TownCase, String> totalRecovered = new JFXTreeTableColumn<>("Recovered");
+        totalRecovered.setCellValueFactory(param -> param.getValue().getValue().recovered);
         Task<Void> tableRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -194,7 +221,7 @@ public class CaseTownController implements Initializable {
                 addButton.setDisable(false);
                 Platform.runLater(() -> {
                     final TreeItem<TownCase> root = new RecursiveTreeItem<TownCase>(cases, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(townCol, totalCaseCol, totalDeathCol);
+                    treeView.getColumns().setAll(townCol, totalCaseCol, totalDeathCol,totalRecovered);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
                     tableLoading.setVisible(false);
@@ -222,14 +249,14 @@ public class CaseTownController implements Initializable {
             }
 
             JSONObject townObject = jsonObject.getJSONObject("town");
-            System.out.println(townObject);
-            System.out.println(jsonObject);
+
             observableList.add(new TownCase(
                     townObject.getString("name"),
                     townObject.getString("_id"),
                     jsonObject.getString("_id"),
                     jsonObject.get("totalCase") + "",
-                    jsonObject.get("death") + ""));
+                    jsonObject.get("totalDeath") + "",
+                    jsonObject.get("recovered")+""));
 
         }
 
@@ -242,7 +269,7 @@ public class CaseTownController implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-
+        recoveredBol =false;
         totalCaseBool = false;
         totalDeathBool = false;
         addTown.setItems(towns);
@@ -286,7 +313,7 @@ public class CaseTownController implements Initializable {
 
     @FXML
     void onEdit(ActionEvent event) {
-
+        recoveredBol =false;
         totalCaseBool = false;
         totalDeathBool = false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
@@ -300,6 +327,7 @@ public class CaseTownController implements Initializable {
         editTownCase.getSelectionModel().select(town);
         editTotalDeath.setText(seletedTownCase.totalDeath.getValue());
         editTotalCase.setText(seletedTownCase.totalCase.getValue());
+        editRecovered.setText(seletedTownCase.recovered.getValue());
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Edit Town"));
         jfxDialogLayout.setBody(editPane);
@@ -317,15 +345,17 @@ public class CaseTownController implements Initializable {
         StringProperty town_name;
         StringProperty totalCase;
         StringProperty totalDeath;
+        StringProperty recovered;
         String _id;
         String town_id;
 
-        public TownCase(String town_name, String town_id, String _id, String totalCase, String totalDeath) {
+        public TownCase(String town_name, String town_id, String _id, String totalCase, String totalDeath,String recovered) {
 
             this.town_name = new SimpleStringProperty(town_name);
             this.town_id = town_id;
             this.totalCase = new SimpleStringProperty(totalCase);
             this.totalDeath = new SimpleStringProperty(totalDeath);
+            this.recovered =new SimpleStringProperty(recovered);
             this._id = _id;
         }
 
@@ -342,6 +372,7 @@ public class CaseTownController implements Initializable {
                 JSONObject addTownCaseObject = new JSONObject();
                 addTownCaseObject.put("totalDeath", Integer.parseInt(addTotalDeath.getText()));
                 addTownCaseObject.put("totalCase", Integer.parseInt(addTotalCase.getText()));
+                 addTownCaseObject.put("recovered", Integer.parseInt(addRecovered.getText()));
 
                 addTownCaseObject.put("town", addTown.getSelectionModel().getSelectedItem()._id);
                 TownModel townModel = new TownModel();
@@ -381,8 +412,9 @@ public class CaseTownController implements Initializable {
                 JSONObject editTownCaseObject = new JSONObject();
                 editTownCaseObject.put("totalDeath", Integer.parseInt(editTotalDeath.getText()));
                 editTownCaseObject.put("totalCase", Integer.parseInt(editTotalCase.getText()));
+                editTownCaseObject.put("recovered",Integer.parseInt(editRecovered.getText()));
                 editTownCaseObject.put("town", editTownCase.getSelectionModel().getSelectedItem()._id);
-                System.out.println(editTownCaseObject);
+
                 TownModel townModel = new TownModel();
                 townModel.editTownCase(editTownCaseObject.toString(), seletedTownCase._id);
 

@@ -66,10 +66,10 @@ public class CaseStateController  implements Initializable {
     private Text editErrorText;
     private JFXSpinner editSpinner;
 
-    private JFXTextField addTotalDeath,addTotalCase;
+    private JFXTextField addTotalDeath,addTotalCase,addRecovered;
 
-    private JFXTextField editTotalCase, editTotalDeath;
-    private boolean totalDeathBool, totalCaseBool;
+    private JFXTextField editTotalCase, editTotalDeath,editRecovered;
+    private boolean totalDeathBool, totalCaseBool,recoveredBol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -80,8 +80,9 @@ public class CaseStateController  implements Initializable {
             editStateCase = (JFXComboBox) editPane.getChildren().get(1);
             editTotalCase = (JFXTextField) editPane.getChildren().get(2);
             editTotalDeath = (JFXTextField) editPane.getChildren().get(3);
-            editSpinner = (JFXSpinner) editPane.getChildren().get(4);
-            editErrorText = (Text) editPane.getChildren().get(5);
+            editRecovered =(JFXTextField) editPane.getChildren().get(4);
+            editSpinner = (JFXSpinner) editPane.getChildren().get(5);
+            editErrorText = (Text) editPane.getChildren().get(6);
 
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton editButton = (JFXButton) gp.getChildren().get(1);
@@ -90,10 +91,11 @@ public class CaseStateController  implements Initializable {
             CaseValidator caseValidator = new CaseValidator();
             editTotalCase.setValidators(caseValidator,emptyValidator);
             editTotalDeath.setValidators(caseValidator,emptyValidator);
+            editRecovered.setValidators(caseValidator,emptyValidator);
             editTotalCase.textProperty().addListener(c -> {
                 if (editTotalCase.validate()) {
                     totalDeathBool = true;
-                    if ( totalDeathBool && totalCaseBool) {
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
                         editButton.setDisable(false);
                     }
                 } else {
@@ -104,7 +106,18 @@ public class CaseStateController  implements Initializable {
             editTotalDeath.textProperty().addListener(c -> {
                 if (editTotalDeath.validate()) {
                     totalCaseBool = true;
-                    if ( totalDeathBool && totalCaseBool) {
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
+                        editButton.setDisable(false);
+                    }
+                } else {
+
+                    editButton.setDisable(true);
+                }
+            });
+            editRecovered.textProperty().addListener(c -> {
+                if (editRecovered.validate()) {
+                    recoveredBol = true;
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
                         editButton.setDisable(false);
                     }
                 } else {
@@ -126,8 +139,9 @@ public class CaseStateController  implements Initializable {
             addState = (JFXComboBox) addPane.getChildren().get(1);
             addTotalCase = (JFXTextField) addPane.getChildren().get(2);
             addTotalDeath = (JFXTextField) addPane.getChildren().get(3);
-            addSpinner = (JFXSpinner) addPane.getChildren().get(4);
-            addErrorText = (Text) addPane.getChildren().get(5);
+            addRecovered =(JFXTextField) addPane.getChildren().get(4);
+            addSpinner = (JFXSpinner) addPane.getChildren().get(5);
+            addErrorText = (Text) addPane.getChildren().get(6);
             gp.getChildren().get(0).addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCancel);
             JFXButton addButton = (JFXButton) gp.getChildren().get(1);
             addButton.setDisable(true);
@@ -135,10 +149,11 @@ public class CaseStateController  implements Initializable {
             CaseValidator caseValidator = new CaseValidator();
             addTotalDeath.setValidators(caseValidator,emptyValidator);
             addTotalCase.setValidators(caseValidator,emptyValidator);
+            addRecovered.setValidators(caseValidator,emptyValidator);
             addTotalDeath.textProperty().addListener(c -> {
                 if (addTotalDeath.validate()) {
                     totalDeathBool = true;
-                    if ( totalDeathBool && totalCaseBool) {
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
                         addButton.setDisable(false);
                     }
                 } else {
@@ -149,7 +164,7 @@ public class CaseStateController  implements Initializable {
             addTotalCase.textProperty().addListener(c -> {
                 if (addTotalCase.validate()) {
                     totalCaseBool = true;
-                    if ( totalDeathBool && totalCaseBool) {
+                    if (  totalDeathBool && totalCaseBool &&recoveredBol) {
                         addButton.setDisable(false);
                     }
                 } else {
@@ -157,7 +172,17 @@ public class CaseStateController  implements Initializable {
                     addButton.setDisable(true);
                 }
             });
+            addRecovered.textProperty().addListener(c -> {
+                if (addRecovered.validate()) {
+                    recoveredBol = true;
+                    if ( totalDeathBool && totalCaseBool &&recoveredBol) {
+                        addButton.setDisable(false);
+                    }
+                } else {
 
+                    addButton.setDisable(true);
+                }
+            });
             addButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onAdd);
 
         } catch (IOException e) {
@@ -185,6 +210,9 @@ public class CaseStateController  implements Initializable {
 
         JFXTreeTableColumn<StateCase, String> totalDeathCol = new JFXTreeTableColumn<>("Total Death");
         totalDeathCol.setCellValueFactory(param -> param.getValue().getValue().totalDeath);
+        JFXTreeTableColumn<StateCase, String> totalRecover = new JFXTreeTableColumn<>("Recovered");
+        totalRecover.setCellValueFactory(param -> param.getValue().getValue().recovered);
+
         Task<Void> tableRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -194,7 +222,7 @@ public class CaseStateController  implements Initializable {
                 addButton.setDisable(false);
                 Platform.runLater(() -> {
                     final TreeItem<StateCase> root = new RecursiveTreeItem<StateCase>(cases, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(stateCol, totalCaseCol, totalDeathCol);
+                    treeView.getColumns().setAll(stateCol, totalCaseCol, totalDeathCol,totalRecover);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
                     tableLoading.setVisible(false);
@@ -229,7 +257,8 @@ public class CaseStateController  implements Initializable {
                     stateObject.getString("_id"),
                     jsonObject.getString("_id"),
                     jsonObject.get("totalCase")+"",
-                    jsonObject.get("totalDeath")+""));
+                    jsonObject.get("totalDeath")+"",
+                    jsonObject.get("recovered")+""));
             System.out.println(observableList);
         }
 
@@ -242,7 +271,7 @@ public class CaseStateController  implements Initializable {
 
     @FXML
     void onAdd(ActionEvent event) {
-
+        recoveredBol =false;
         totalCaseBool = false;
         totalDeathBool = false;
         addState.setItems(states);
@@ -289,6 +318,7 @@ public class CaseStateController  implements Initializable {
 
         totalCaseBool = false;
         totalDeathBool = false;
+        recoveredBol =false;
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob = treeView.getRoot().getChildren();
 
@@ -300,6 +330,7 @@ public class CaseStateController  implements Initializable {
         editStateCase.getSelectionModel().select(state);
         editTotalDeath.setText(seletedStateCase.totalDeath.getValue());
         editTotalCase.setText(seletedStateCase.totalCase.getValue());
+        editRecovered.setText(seletedStateCase.recovered.getValue());
         jfxDialogLayout = new JFXDialogLayout();
         jfxDialogLayout.setHeading(new Text("Edit State"));
         jfxDialogLayout.setBody(editPane);
@@ -317,15 +348,17 @@ public class CaseStateController  implements Initializable {
         StringProperty state_name;
         StringProperty totalCase;
         StringProperty totalDeath;
+        StringProperty recovered;
         String _id;
         String state_id;
 
-        public StateCase( String state_name, String state_id,String _id,String totalCase,String totalDeath) {
+        public StateCase( String state_name, String state_id,String _id,String totalCase,String totalDeath,String recovered) {
 
             this.state_name = new SimpleStringProperty(state_name);
             this.state_id = state_id;
             this.totalCase = new SimpleStringProperty(totalCase);
             this.totalDeath = new SimpleStringProperty(totalDeath);
+            this.recovered =new SimpleStringProperty(recovered);
             this._id = _id;
         }
 
@@ -342,7 +375,7 @@ public class CaseStateController  implements Initializable {
                 JSONObject addStateCaseObject = new JSONObject();
                 addStateCaseObject.put("totalDeath",Integer.parseInt(addTotalDeath.getText()));
                 addStateCaseObject.put("totalCase",Integer.parseInt(addTotalCase.getText()));
-
+                addStateCaseObject.put("recovered",Integer.parseInt(addRecovered.getText()));
                 addStateCaseObject.put("state", addState.getSelectionModel().getSelectedItem()._id);
                 StateModel stateModel = new StateModel();
 
@@ -381,6 +414,8 @@ public class CaseStateController  implements Initializable {
                 JSONObject editStateCaseObject = new JSONObject();
                 editStateCaseObject.put("totalDeath",Integer.parseInt(editTotalDeath.getText()));
                 editStateCaseObject.put("totalCase",Integer.parseInt(editTotalCase.getText()));
+                editStateCaseObject.put("recovered",Integer.parseInt(editRecovered.getText()));
+
                 editStateCaseObject.put("state", editStateCase.getSelectionModel().getSelectedItem()._id);
                 System.out.println(editStateCaseObject);
                 StateModel stateModel = new StateModel();

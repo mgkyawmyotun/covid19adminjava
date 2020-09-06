@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -14,189 +15,193 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="871.0" prefWidth="1587.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
       <BorderPane fx:id="borderPane" stylesheets="@css/admindesign.css">
          <left>
-            <VBox styleClass="navbar" BorderPane.alignment="CENTER">
-               <children>
-                  <AnchorPane prefHeight="190.0" prefWidth="328.0">
+            <ScrollPane BorderPane.alignment="CENTER">
+               <content>
+                  <VBox styleClass="navbar">
                      <children>
-                        <Text layoutX="2.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER" wrappingWidth="320.6708984375">
+                        <AnchorPane prefHeight="75.0" prefWidth="313.0">
+                           <children>
+                              <Text layoutX="55.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" textAlignment="CENTER" wrappingWidth="185.6708984375">
+                                 <font>
+                                    <Font size="48.0" />
+                                 </font>
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop color="#c34e4e" />
+                                          <Stop color="#c992b6" offset="1.0" />
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                              </Text>
+                              <ImageView fitHeight="47.0" fitWidth="74.0" layoutX="124.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/covidadmin.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                        <JFXButton fx:id="state" onAction="#onState" prefHeight="18.0" prefWidth="330.0" text="      State   " textFill="WHITE">
                            <font>
-                              <Font size="48.0" />
+                              <Font size="24.0" />
                            </font>
-                           <fill>
-                              <LinearGradient endX="1.0" endY="1.0">
-                                 <stops>
-                                    <Stop color="#c34e4e" />
-                                    <Stop color="#c992b6" offset="1.0" />
-                                 </stops>
-                              </LinearGradient>
-                           </fill>
-                        </Text>
-                        <ImageView fitHeight="95.0" fitWidth="145.0" layoutX="106.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/covidadmin.png" />
-                           </image>
-                        </ImageView>
+                           <graphic>
+                              <ImageView fitHeight="29.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/addstate2.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </JFXButton>
+                        <JFXButton fx:id="town" alignment="CENTER" onAction="#onTown" prefHeight="82.0" prefWidth="330.0" text="    Town   " textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="37.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/addtown2.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="townShip" alignment="CENTER" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/townshipadd.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="hospital" alignment="CENTER" layoutX="10.0" layoutY="349.0" onAction="#onHospital" prefHeight="82.0" prefWidth="330.0" text="   Hospital" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="36.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/addhospital.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="patient" alignment="CENTER" layoutX="10.0" layoutY="429.0" onAction="#onPatient" prefHeight="82.0" prefWidth="330.0" text="     Patient" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="38.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/addpatient.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="caseState" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onCaseState" prefHeight="82.0" prefWidth="330.0" text="Case by State" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="35.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/townshipadd.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="caseTown" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onCaseTown" prefHeight="82.0" prefWidth="330.0" text="Case by Town" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="31.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/townshipadd.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="admin" alignment="CENTER" layoutX="10.0" layoutY="514.0" onAction="#onAdmin" prefHeight="82.0" prefWidth="330.0" text="    Admin " textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="38.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/adduser.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="account" alignment="CENTER" layoutX="10.0" layoutY="631.0" onAction="#onAccount" prefHeight="82.0" prefWidth="330.0" text="   Account" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="27.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/covidadmin.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="logout" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onLogout" prefHeight="82.0" prefWidth="330.0" text="    Logout" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="31.0" fitWidth="54.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/addlogout.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children>
-                  </AnchorPane>
-                  <JFXButton fx:id="state" onAction="#onState" prefHeight="82.0" prefWidth="330.0" text="      State   " textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/addstate2.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </JFXButton>
-                  <JFXButton fx:id="town" alignment="CENTER" onAction="#onTown" prefHeight="82.0" prefWidth="330.0" text="    Town   " textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="61.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/addtown2.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="townShip" alignment="CENTER" onAction="#onTownShip" prefHeight="82.0" prefWidth="330.0" text=" Township" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/townshipadd.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="hospital" alignment="CENTER" layoutX="10.0" layoutY="349.0" onAction="#onHospital" prefHeight="82.0" prefWidth="330.0" text="   Hospital" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/addhospital.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="patient" alignment="CENTER" layoutX="10.0" layoutY="429.0" onAction="#onPatient" prefHeight="82.0" prefWidth="330.0" text="     Patient" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/addpatient.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="caseState" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onCaseState" prefHeight="82.0" prefWidth="330.0" text="Case by State" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/townshipadd.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="caseTown" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onCaseTown" prefHeight="82.0" prefWidth="330.0" text="Case by Town" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="61.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/townshipadd.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="admin" alignment="CENTER" layoutX="10.0" layoutY="514.0" onAction="#onAdmin" prefHeight="82.0" prefWidth="330.0" text="    Admin " textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/adduser.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="account" alignment="CENTER" layoutX="10.0" layoutY="631.0" onAction="#onAccount" prefHeight="82.0" prefWidth="330.0" text="   Account" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/covidadmin.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton fx:id="logout" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onLogout" prefHeight="82.0" prefWidth="330.0" text="    Logout" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <graphic>
-                        <ImageView fitHeight="68.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/addlogout.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </VBox>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </left>
          <center>
-            <AnchorPane fx:id="anchorPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="anchorPane" BorderPane.alignment="CENTER">
                <children>
                   <Text fx:id="w" layoutX="200.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="W">
                      <font>
