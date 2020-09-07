@@ -62,9 +62,28 @@ public class AdminController {
     private JFXButton logout;
     @FXML
     private JFXButton caseState;
+    @FXML
+    private JFXButton district;
 
     @FXML
     private JFXButton caseTown;
+    @FXML
+    void onDistrict(ActionEvent event) {
+            new BounceIn(district).play();
+            borderPane.setCenter(loadDistrict());
+    }
+    private Pane loadDistrict() {
+        Pane screen = null;
+        try {
+
+            Main.addScreen("district", FXMLLoader.load(getClass().getResource("/views/components/districtView.fxml")));
+            screen = Main.getScreen("district");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return screen;
+
+    }
     @FXML
     void onCaseState(ActionEvent event) {
         new BounceIn(caseState).play();
