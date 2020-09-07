@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import models.TownModel;
+import models.DistrictModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utils.CaseValidator;
@@ -29,12 +29,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CaseTownController implements Initializable {
+public class CaseDistrictController implements Initializable {
 
     @FXML
     private StackPane main;
     @FXML
-    private JFXTreeTableView<TownCase> treeView;
+    private JFXTreeTableView<DistrictCase> treeView;
     @FXML
     private JFXButton addButton;
     @FXML
@@ -46,22 +46,22 @@ public class CaseTownController implements Initializable {
     private Text titleText;
     @FXML
 
-    private JFXComboBox<Town> editTownCase;
+    private JFXComboBox<District> editDistrictCase;
     private Pane editPane;
     private Pane addPane;
-    TownCase seletedTownCase;
+    DistrictCase seletedDistrictCase;
     @FXML
 
 
     private JFXSpinner addSpinner;
-    private JFXComboBox<Town> addTown;
+    private JFXComboBox<District> addDistrict;
     private Text addErrorText;
 
     @FXML
     private JFXButton deleteButton;
-    ObservableList<TownCase> cases;
+    ObservableList<DistrictCase> cases;
     private JFXDialog jfxDialog;
-    private ObservableList<Town> towns;
+    private ObservableList<District> districts;
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
@@ -75,9 +75,9 @@ public class CaseTownController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
         try {
-            editPane = FXMLLoader.load(getClass().getResource("/views/components/townCaseEdit.fxml"));
+            editPane = FXMLLoader.load(getClass().getResource("/views/components/districtCaseEdit.fxml"));
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
-            editTownCase = (JFXComboBox) editPane.getChildren().get(1);
+            editDistrictCase = (JFXComboBox) editPane.getChildren().get(1);
             editTotalCase = (JFXTextField) editPane.getChildren().get(2);
             editTotalDeath = (JFXTextField) editPane.getChildren().get(3);
             editRecovered =(JFXTextField) editPane.getChildren().get(4);
@@ -132,11 +132,11 @@ public class CaseTownController implements Initializable {
         }
 
         try {
-            addPane = FXMLLoader.load(getClass().getResource("/views/components/townCaseAdd.fxml"));
+            addPane = FXMLLoader.load(getClass().getResource("/views/components/districtCaseAdd.fxml"));
 
             GridPane gp = (GridPane) addPane.getChildren().get(addPane.getChildren().size() - 1);
 
-            addTown = (JFXComboBox) addPane.getChildren().get(1);
+            addDistrict = (JFXComboBox) addPane.getChildren().get(1);
             addTotalCase = (JFXTextField) addPane.getChildren().get(2);
             addTotalDeath = (JFXTextField) addPane.getChildren().get(3);
             addRecovered =(JFXTextField) addPane.getChildren().get(4);
@@ -203,25 +203,25 @@ public class CaseTownController implements Initializable {
         treeView.setVisible(false);
         tableLoading.setVisible(true);
 
-        JFXTreeTableColumn<TownCase, String> townCol = new JFXTreeTableColumn<>("Town Name");
-        townCol.setCellValueFactory(param -> param.getValue().getValue().town_name);
-        JFXTreeTableColumn<TownCase, String> totalCaseCol = new JFXTreeTableColumn<>("Total Case");
+        JFXTreeTableColumn<DistrictCase, String> districtCol = new JFXTreeTableColumn<>("District Name");
+        districtCol.setCellValueFactory(param -> param.getValue().getValue().district_name);
+        JFXTreeTableColumn<DistrictCase, String> totalCaseCol = new JFXTreeTableColumn<>("Total Case");
         totalCaseCol.setCellValueFactory(param -> param.getValue().getValue().totalCase);
 
-        JFXTreeTableColumn<TownCase, String> totalDeathCol = new JFXTreeTableColumn<>("Total Death");
+        JFXTreeTableColumn<DistrictCase, String> totalDeathCol = new JFXTreeTableColumn<>("Total Death");
         totalDeathCol.setCellValueFactory(param -> param.getValue().getValue().totalDeath);
-         JFXTreeTableColumn<TownCase, String> totalRecovered = new JFXTreeTableColumn<>("Recovered");
+        JFXTreeTableColumn<DistrictCase, String> totalRecovered = new JFXTreeTableColumn<>("Recovered");
         totalRecovered.setCellValueFactory(param -> param.getValue().getValue().recovered);
         Task<Void> tableRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 addButton.setDisable(true);
                 cases = loadCases();
-                towns = loadTowns();
+                districts = loadDistricts();
                 addButton.setDisable(false);
                 Platform.runLater(() -> {
-                    final TreeItem<TownCase> root = new RecursiveTreeItem<TownCase>(cases, RecursiveTreeObject::getChildren);
-                    treeView.getColumns().setAll(townCol, totalCaseCol, totalDeathCol,totalRecovered);
+                    final TreeItem<DistrictCase> root = new RecursiveTreeItem<DistrictCase>(cases, RecursiveTreeObject::getChildren);
+                    treeView.getColumns().setAll(districtCol, totalCaseCol, totalDeathCol,totalRecovered);
                     treeView.setRoot(root);
                     treeView.setShowRoot(false);
                     tableLoading.setVisible(false);
@@ -235,24 +235,24 @@ public class CaseTownController implements Initializable {
 
     }
 
-    private ObservableList<TownCase> loadCases() {
-        ObservableList<TownCase> observableList = FXCollections.observableArrayList();
-        TownModel townModel = new TownModel();
-        JSONArray jsonCases = townModel.getTownCases();
+    private ObservableList<DistrictCase> loadCases() {
+        ObservableList<DistrictCase> observableList = FXCollections.observableArrayList();
+        DistrictModel districtModel = new DistrictModel();
+        JSONArray jsonCases = districtModel.getDistrictCases();
         for (int i = 0; i < jsonCases.length(); i++) {
             JSONObject jsonObject = jsonCases.getJSONObject(i);
-            if (jsonObject.isNull("town")) {
+            if (jsonObject.isNull("district")) {
                 JSONObject jsonObject1 = new JSONObject();
-                jsonObject1.put("name", "No Town (Deleted)");
+                jsonObject1.put("name", "No District (Deleted)");
                 jsonObject1.put("_id", "");
-                jsonObject.put("town", jsonObject1);
+                jsonObject.put("district", jsonObject1);
             }
 
-            JSONObject townObject = jsonObject.getJSONObject("town");
+            JSONObject districtObject = jsonObject.getJSONObject("district");
 
-            observableList.add(new TownCase(
-                    townObject.getString("name"),
-                    townObject.getString("_id"),
+            observableList.add(new DistrictCase(
+                    districtObject.getString("name"),
+                    districtObject.getString("_id"),
                     jsonObject.getString("_id"),
                     jsonObject.get("totalCase") + "",
                     jsonObject.get("totalDeath") + "",
@@ -272,10 +272,10 @@ public class CaseTownController implements Initializable {
         recoveredBol =false;
         totalCaseBool = false;
         totalDeathBool = false;
-        addTown.setItems(towns);
-        addTown.getSelectionModel().select(0);
+        addDistrict.setItems(districts);
+        addDistrict.getSelectionModel().select(0);
         jfxDialogLayout = new JFXDialogLayout();
-        jfxDialogLayout.setHeading(new Text("Add Town Case"));
+        jfxDialogLayout.setHeading(new Text("Add District Case"));
         jfxDialogLayout.setBody(addPane);
         jfxDialog = new JFXDialog(main, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
         jfxDialog.setOverlayClose(false);
@@ -292,9 +292,9 @@ public class CaseTownController implements Initializable {
                 int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
                 ObservableList ob = treeView.getRoot().getChildren();
 
-                seletedTownCase = (TownCase) ((TreeItem) ob.get(selectedIndex)).getValue();
-                TownModel townModel = new TownModel();
-                townModel.deleteTownCase(seletedTownCase._id);
+                seletedDistrictCase = (DistrictCase) ((TreeItem) ob.get(selectedIndex)).getValue();
+                DistrictModel districtModel = new DistrictModel();
+                districtModel.deleteDistrictCase(seletedDistrictCase._id);
                 loadTable();
                 jfxButton.setDisable(false);
                 return null;
@@ -319,17 +319,17 @@ public class CaseTownController implements Initializable {
         int selectedIndex = treeView.getSelectionModel().getSelectedIndex();
         ObservableList ob = treeView.getRoot().getChildren();
 
-        seletedTownCase = (TownCase) ((TreeItem) ob.get(selectedIndex)).getValue();
-        Town town = towns.stream().filter((x) -> x.name.equals(seletedTownCase.town_name.getValue())).findFirst().orElse(towns.get(0));
+        seletedDistrictCase = (DistrictCase) ((TreeItem) ob.get(selectedIndex)).getValue();
+        District district = districts.stream().filter((x) -> x.name.equals(seletedDistrictCase.district_name.getValue())).findFirst().orElse(districts.get(0));
 
-        editTownCase.setItems(towns);
+        editDistrictCase.setItems(districts);
 
-        editTownCase.getSelectionModel().select(town);
-        editTotalDeath.setText(seletedTownCase.totalDeath.getValue());
-        editTotalCase.setText(seletedTownCase.totalCase.getValue());
-        editRecovered.setText(seletedTownCase.recovered.getValue());
+        editDistrictCase.getSelectionModel().select(district);
+        editTotalDeath.setText(seletedDistrictCase.totalDeath.getValue());
+        editTotalCase.setText(seletedDistrictCase.totalCase.getValue());
+        editRecovered.setText(seletedDistrictCase.recovered.getValue());
         jfxDialogLayout = new JFXDialogLayout();
-        jfxDialogLayout.setHeading(new Text("Edit Town"));
+        jfxDialogLayout.setHeading(new Text("Edit District"));
         jfxDialogLayout.setBody(editPane);
         jfxDialog = new JFXDialog(main, jfxDialogLayout, JFXDialog.DialogTransition.CENTER);
         jfxDialog.setOverlayClose(false);
@@ -339,20 +339,20 @@ public class CaseTownController implements Initializable {
 
     }
 
-    class TownCase extends RecursiveTreeObject<TownCase> {
+    class DistrictCase extends RecursiveTreeObject<DistrictCase> {
 
 
-        StringProperty town_name;
+        StringProperty district_name;
         StringProperty totalCase;
         StringProperty totalDeath;
         StringProperty recovered;
         String _id;
-        String town_id;
+        String district_id;
 
-        public TownCase(String town_name, String town_id, String _id, String totalCase, String totalDeath,String recovered) {
+        public DistrictCase(String district_name, String district_id, String _id, String totalCase, String totalDeath,String recovered) {
 
-            this.town_name = new SimpleStringProperty(town_name);
-            this.town_id = town_id;
+            this.district_name = new SimpleStringProperty(district_name);
+            this.district_id = district_id;
             this.totalCase = new SimpleStringProperty(totalCase);
             this.totalDeath = new SimpleStringProperty(totalDeath);
             this.recovered =new SimpleStringProperty(recovered);
@@ -369,15 +369,15 @@ public class CaseTownController implements Initializable {
         Task<Void> addRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject addTownCaseObject = new JSONObject();
-                addTownCaseObject.put("totalDeath", Integer.parseInt(addTotalDeath.getText()));
-                addTownCaseObject.put("totalCase", Integer.parseInt(addTotalCase.getText()));
-                 addTownCaseObject.put("recovered", Integer.parseInt(addRecovered.getText()));
+                JSONObject addDistrictCaseObject = new JSONObject();
+                addDistrictCaseObject.put("totalDeath", Integer.parseInt(addTotalDeath.getText()));
+                addDistrictCaseObject.put("totalCase", Integer.parseInt(addTotalCase.getText()));
+                addDistrictCaseObject.put("recovered", Integer.parseInt(addRecovered.getText()));
 
-                addTownCaseObject.put("town", addTown.getSelectionModel().getSelectedItem()._id);
-                TownModel townModel = new TownModel();
+                addDistrictCaseObject.put("district", addDistrict.getSelectionModel().getSelectedItem()._id);
+                DistrictModel districtModel = new DistrictModel();
 
-                townModel.addTownCase(addTownCaseObject.toString());
+                districtModel.addDistrictCase(addDistrictCaseObject.toString());
 
                 Platform.runLater(() -> {
 
@@ -410,14 +410,14 @@ public class CaseTownController implements Initializable {
         Task<Void> editRequest = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                JSONObject editTownCaseObject = new JSONObject();
-                editTownCaseObject.put("totalDeath", Integer.parseInt(editTotalDeath.getText()));
-                editTownCaseObject.put("totalCase", Integer.parseInt(editTotalCase.getText()));
-                editTownCaseObject.put("recovered",Integer.parseInt(editRecovered.getText()));
-                editTownCaseObject.put("town", editTownCase.getSelectionModel().getSelectedItem()._id);
+                JSONObject editDistrictCaseObject = new JSONObject();
+                editDistrictCaseObject.put("totalDeath", Integer.parseInt(editTotalDeath.getText()));
+                editDistrictCaseObject.put("totalCase", Integer.parseInt(editTotalCase.getText()));
+                editDistrictCaseObject.put("recovered",Integer.parseInt(editRecovered.getText()));
+                editDistrictCaseObject.put("district", editDistrictCase.getSelectionModel().getSelectedItem()._id);
 
-                TownModel townModel = new TownModel();
-                townModel.editTownCase(editTownCaseObject.toString(), seletedTownCase._id);
+                DistrictModel districtModel = new DistrictModel();
+                districtModel.editDistrictCase(editDistrictCaseObject.toString(), seletedDistrictCase._id);
 
                 Platform.runLater(() -> {
 
@@ -440,23 +440,23 @@ public class CaseTownController implements Initializable {
 
     }
 
-    private ObservableList<Town> loadTowns() {
-        ObservableList<Town> observableList = FXCollections.observableArrayList();
-        TownModel townModel = new TownModel();
-        townModel.refreshTowns();
-        JSONArray jsonTowns = townModel.getTowns();
-        for (int i = 0; i < jsonTowns.length(); i++) {
-            JSONObject jsonObject = jsonTowns.getJSONObject(i);
-               observableList.add(new Town(jsonObject.getString("name"), jsonObject.getString("_id")));
+    private ObservableList<District> loadDistricts() {
+        ObservableList<District> observableList = FXCollections.observableArrayList();
+        DistrictModel districtModel = new DistrictModel();
+        districtModel.refreshDistricts();
+        JSONArray jsonDistricts = districtModel.getDistricts();
+        for (int i = 0; i < jsonDistricts.length(); i++) {
+            JSONObject jsonObject = jsonDistricts.getJSONObject(i);
+            observableList.add(new District(jsonObject.getString("name"), jsonObject.getString("_id")));
         }
         return observableList;
     }
 
-    class Town {
+    class District {
         String name;
         String _id;
 
-        Town(String name, String _id) {
+        District(String name, String _id) {
             this.name = name;
             this._id = _id;
         }

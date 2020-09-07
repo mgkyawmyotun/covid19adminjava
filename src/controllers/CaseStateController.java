@@ -390,7 +390,7 @@ public class CaseStateController  implements Initializable {
 
                     addTotalDeath.setText("");
                     addTotalCase.setText("");
-
+                    addRecovered.setText("");
                 });
                 return null;
             }

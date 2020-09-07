@@ -135,7 +135,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="caseState" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onCaseState" prefHeight="72.0" prefWidth="330.0" text="Case by State" textFill="WHITE">
+                        <JFXButton fx:id="caseState" alignment="CENTER" layoutX="10.0" layoutY="344.0" onAction="#onCaseState" prefHeight="72.0" prefWidth="330.0" text="    Case by State" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -150,7 +150,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="caseTown" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onCaseTown" prefHeight="74.0" prefWidth="330.0" text="Case by Town" textFill="WHITE">
+                        <JFXButton fx:id="caseDistrict" alignment="CENTER" layoutX="10.0" layoutY="573.0" onAction="#onCaseDistrict" prefHeight="64.0" prefWidth="330.0" text=" Case by District" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -158,7 +158,22 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <graphic>
-                              <ImageView fitHeight="31.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="50.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Images/townshipadd.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="caseTown" alignment="CENTER" layoutX="10.0" layoutY="606.0" onAction="#onCaseTown" prefHeight="68.0" prefWidth="330.0" text="   Case by Town" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <graphic>
+                              <ImageView fitHeight="36.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@Images/townshipadd.png" />
                                  </image>

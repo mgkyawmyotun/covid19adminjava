@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="main" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CaseDistrictController">
+    <children>
+        <BorderPane fx:id="borderPane" prefHeight="565.0" prefWidth="653.0" stylesheets="@../css/stateView.css">
+            <center>
+                <StackPane BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                    <children>
+                        <JFXTreeTableView fx:id="treeView" prefHeight="38.0" prefWidth="706.0" stylesheets="@../css/tableDesign.css">
+                            <padding>
+                                <Insets left="100.0" right="100.0" />
+                            </padding>
+                            <columnResizePolicy>
+                                <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </JFXTreeTableView>
+                        <JFXSpinner fx:id="tableLoading" radius="50.0" visible="false" />
+                    </children>
+                </StackPane>
+            </center>
+            <top>
+                <AnchorPane fx:id="topPane" prefHeight="247.0" prefWidth="743.0" styleClass="hero" BorderPane.alignment="CENTER">
+                    <children>
+                        <Text fx:id="titleText" fill="WHITE" layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Case By District" wrappingWidth="339.826171875">
+                            <font>
+                                <Font size="43.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
+            </top>
+            <bottom>
+                <GridPane alignment="CENTER" prefHeight="113.0" prefWidth="633.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <JFXButton fx:id="addButton" onAction="#onAdd" prefHeight="69.0" prefWidth="186.0" text="Add" />
+                        <JFXButton fx:id="editButton" disable="true" onAction="#onEdit" prefHeight="63.0" prefWidth="183.0" text="Edit" GridPane.columnIndex="1" />
+                        <JFXButton fx:id="deleteButton" disable="true" onAction="#onDelete" prefHeight="60.0" prefWidth="161.0" text="Delete" GridPane.columnIndex="2" />
+                    </children>
+                </GridPane>
+            </bottom>
+        </BorderPane>
+    </children>
+</StackPane>
