@@ -415,8 +415,9 @@ public class TownController implements Initializable {
 
                 editTownObject.put("_id", seletedTown._id);
                 JSONArray jsonArray = new JSONArray();
-                jsonArray.put(Double.parseDouble(editLat.getText()));
+
                 jsonArray.put(Double.parseDouble(editLong.getText()));
+                jsonArray.put(Double.parseDouble(editLat.getText()));
                 editTownObject.put("location", jsonArray);
 
                 editTownObject.put("state", editstate.getSelectionModel().getSelectedItem()._id);
