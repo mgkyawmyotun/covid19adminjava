@@ -12,7 +12,10 @@
 * [JSON-java](https://github.com/stleary/JSON-java) - JSON in Java make JavaObject to json and json to java Object ez
  
 ## Screenshots
-###Login View
+### Login View
 ![Login View](https://github.com/mohamadealiyes/covid19adminjava/blob/master/src/views/Images/loginView.png)
-###Forget Password View
+### Forget Password View
 ![Login View](https://github.com/mohamadealiyes/covid19adminjava/blob/master/src/views/Images/forgetView.png)
+
+### Admin View
+![Login View](https://github.com/mohamadealiyes/covid19adminjava/blob/master/src/views/Images/AdminView.png)
