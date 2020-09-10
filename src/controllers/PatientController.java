@@ -620,7 +620,7 @@ public class PatientController implements Initializable {
                 editPatientObject.put("oversea_country",editOversea.getSelectionModel().getSelectedItem());
                 editPatientObject.put("date",editDate.getValue());
                 editPatientObject.put("contact_person",editContactPerson.getSelectionModel().getSelectedItem());
-
+                System.out.println(editPatientObject.toString());
                 PatientModel townModel = new PatientModel();
 
                 townModel.editPatient(editPatientObject.toString(), seletedPatient._id);
