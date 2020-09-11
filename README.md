@@ -29,6 +29,10 @@
 - Admin can create another admin(I know that sound funny)
 - Once you authenticate you don't need to login again we use authentication streategy call [JWT](https://jwt.io/) to authorize admin
 
+#### IDE
+
+- This project is build using [IntelliJ IDEA](https://www.jetbrains.com/idea/)
+
 ## Screenshots
 
 ### Login View
