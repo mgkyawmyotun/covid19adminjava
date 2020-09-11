@@ -66,9 +66,17 @@ public class HospitalController implements Initializable {
     private Text editErrorText;
     private JFXSpinner editSpinner;
     private  boolean hospitalBool =false;
+    @FXML
+    private JFXTextField searchInput;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                Hospital hospital =g.getValue();
+                return  hospital.name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase()) ||hospital.town_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/hospitalEdit.fxml"));
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);

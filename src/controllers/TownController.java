@@ -75,10 +75,18 @@ public class TownController implements Initializable {
 
     private JFXTextField editLat, editLong;
     private boolean latBool, longBool, townBool = false;
+    @FXML
+    private JFXTextField searchInput;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                Town town =g.getValue();
+                return  town.name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase()) ||town.state_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/townEdit.fxml"));
 
@@ -442,6 +450,7 @@ public class TownController implements Initializable {
             editButton.setDisable(true);
             deleteButton.setDisable(true);
         });
+
 
 
     }

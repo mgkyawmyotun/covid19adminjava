@@ -46,6 +46,8 @@ public class StateViewController implements Initializable {
 
     @FXML
     private JFXButton editButton;
+    @FXML
+    private JFXTextField searchInput;
 
     @FXML
     private JFXTextField state;
@@ -194,7 +196,12 @@ public class StateViewController implements Initializable {
             deleteButton.setDisable(false);
 
         });
-
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                State state =g.getValue();
+                return  state.name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         loadTable();
 
 

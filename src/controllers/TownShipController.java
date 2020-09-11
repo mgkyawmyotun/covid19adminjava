@@ -65,10 +65,18 @@ public class TownShipController implements Initializable {
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
+    @FXML
+    private JFXTextField searchInput;
     private  boolean townBool;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                TownShip townShip =g.getValue();
+                return  townShip.name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase())||townShip.town_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/editTownShip.fxml"));
 

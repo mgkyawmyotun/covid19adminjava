@@ -59,7 +59,6 @@ public class StateModel {
         System.out.println(response);
         this.state = new JSONObject(response);
 
-
     }
 
     public void deleteState(String _id) {

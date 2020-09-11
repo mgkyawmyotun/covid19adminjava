@@ -56,7 +56,8 @@ public class DistrictController implements Initializable {
     private JFXSpinner addSpinner;
     private JFXComboBox<State> addstate;
     private Text addErrorText;
-
+    @FXML
+    private JFXTextField searchInput;
     @FXML
     private JFXButton deleteButton;
     ObservableList<District> towns;
@@ -71,6 +72,12 @@ public class DistrictController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                District district =g.getValue();
+                return  district.name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase())||district.state_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/editDistrict.fxml"));
 
