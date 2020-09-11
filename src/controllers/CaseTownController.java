@@ -70,10 +70,18 @@ public class CaseTownController implements Initializable {
 
     private JFXTextField editTotalCase, editTotalDeath,editRecovered;
     private boolean totalDeathBool, totalCaseBool,recoveredBol;
+    @FXML
+    private JFXTextField searchInput;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                TownCase townCase =g.getValue();
+                return  townCase.town_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/townCaseEdit.fxml"));
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);

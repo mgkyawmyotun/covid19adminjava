@@ -70,10 +70,18 @@ public class CaseDistrictController implements Initializable {
 
     private JFXTextField editTotalCase, editTotalDeath,editRecovered;
     private boolean totalDeathBool, totalCaseBool,recoveredBol;
+    @FXML
+    private JFXTextField searchInput;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+               DistrictCase districtCase =g.getValue();
+                return  districtCase.district_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/districtCaseEdit.fxml"));
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);

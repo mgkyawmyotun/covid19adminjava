@@ -2,9 +2,11 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -43,6 +45,17 @@
                                 <Font size="43.0" />
                             </font>
                         </Text>
+                  <JFXTextField fx:id="searchInput" focusColor="WHITE" layoutX="182.0" layoutY="198.0" promptText="Search ..." style="-fx-text-inner-color: white; -fx-prompt-text-fill: white;" unFocusColor="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </JFXTextField>
                     </children>
                 </AnchorPane>
             </top>

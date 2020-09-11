@@ -45,6 +45,8 @@ public class PatientController implements Initializable {
     private JFXButton addButton;
     @FXML
     private JFXSpinner tableLoading;
+    @FXML
+    private JFXTextField searchInput;
 
     @FXML
     private JFXButton editButton;
@@ -103,6 +105,16 @@ public class PatientController implements Initializable {
       @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+          searchInput.textProperty().addListener(c ->{
+              treeView.setPredicate(g ->{
+                  Patient patient =g.getValue();
+                  return  patient.name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase())
+                          || patient.state_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase())
+                          || patient.town_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase())
+                          || patient.age.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+
+              });
+          });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/editPatient.fxml"));
 

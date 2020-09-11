@@ -25,9 +25,8 @@
 
 #### Authentication & Authorization
 
-- First you need to Authenticate as admin ,
-- Admin can create another admin(I know that sound funny)
-- Once you authenticate you don't need to login again we use authentication streategy call [JWT](https://jwt.io/) to authorize admin
+- we use authentication streategy call [JWT](https://jwt.io/) to authorize admin
+
 
 #### IDE
 

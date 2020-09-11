@@ -65,7 +65,8 @@ public class CaseStateController  implements Initializable {
     private JFXDialogLayout jfxDialogLayout;
     private Text editErrorText;
     private JFXSpinner editSpinner;
-
+    @FXML
+    private JFXTextField searchInput;
     private JFXTextField addTotalDeath,addTotalCase,addRecovered;
 
     private JFXTextField editTotalCase, editTotalDeath,editRecovered;
@@ -74,6 +75,12 @@ public class CaseStateController  implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         new ZoomInDown(titleText).play();
+        searchInput.textProperty().addListener(c ->{
+            treeView.setPredicate(g ->{
+                StateCase state =g.getValue();
+                return  state.state_name.getValue().toLowerCase().contains(searchInput.getText().toLowerCase());
+            });
+        });
         try {
             editPane = FXMLLoader.load(getClass().getResource("/views/components/stateCaseEdit.fxml"));
             GridPane gp = (GridPane) editPane.getChildren().get(editPane.getChildren().size() - 1);
