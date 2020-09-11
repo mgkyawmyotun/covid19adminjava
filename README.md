@@ -12,14 +12,22 @@
 - [OkHttp](https://square.github.io/okhttp/) - HTTP is the way modern applications network. It’s how we exchange data & media. Doing HTTP efficiently makes your stuff load faster and saves bandwidth
 - [JSON-java](https://github.com/stleary/JSON-java) - JSON in Java make JavaObject to json and json to java Object ez
 
-## Credits
+#### Use Of Tech
 
-Thanks some of my members for paying attention and filling data,making uml,use case,class diagram,presentation slides and others stuff
+- This Project is written in Java and using javaFX for nice GUI.
 
-- [Myint Zuu Kyaw]()
-- [Lin Htet Aung]()
-- [Khin Nyein Wai]()
-- [Thu Thu San]()
+#### Sofware Pattern
+
+- for simplicity and clean code we follow [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) design pattern,as I told above I use [covid-19-api-myanmar](https://electron.atom.io)(for details check this) for storing and manipulating data.
+  You can found CRUD Request on Model Folder/Package,
+  It hard to sepearate views and controller in GUI base app,So user action and logic are written in controller
+  On Views folder,some fxml file for UI
+
+#### Authentication & Authorization
+
+- First you need to Authenticate as admin ,
+- Admin can create another admin(I know that sound funny)
+- Once you authenticate you don't need to login again we use authentication streategy call [JWT](https://jwt.io/) to authorize admin
 
 ## Screenshots
 
@@ -34,3 +42,12 @@ Thanks some of my members for paying attention and filling data,making uml,use c
 ### Admin View
 
 ![Login View](https://github.com/mohamadealiyes/covid19adminjava/blob/master/src/views/Images/AdminView.png)
+
+## Credits
+
+Thanks some of my members for paying attention and filling data,making uml,use case,class diagram,presentation slides and others stuff
+
+- [Myint Zuu Kyaw]()
+- [Lin Htet Aung]()
+- [Khin Nyein Wai]()
+- [Thu Thu San]()
