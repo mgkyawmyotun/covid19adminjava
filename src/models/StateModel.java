@@ -51,7 +51,6 @@ public class StateModel {
             if (response1.code() >= 400) {
                 new JSONObject().put("error", " LOL i don't have time ");
             }
-            ;
 
             response = response1.body().string();
         } catch (IOException e) {
