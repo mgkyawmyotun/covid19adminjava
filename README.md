@@ -70,3 +70,7 @@ Thanks some of my members for paying attention and filling data,making uml,use c
 - [Thu Thu San](https://www.facebook.com/thuthu.san.90410)
 - [Kaung Htet Nyein Chan Kyaw](https://www.facebook.com/kaunghtatnyeinchan)
 - [Htet Paing Oo](https://www.facebook.com/profile.php?id=100027680062293)
+
+## License
+##### [MIT](https://choosealicense.com/licenses/mit/)
+Copyright (c) 2020, Kyaw Myo Tun
