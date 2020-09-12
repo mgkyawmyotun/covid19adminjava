@@ -37,7 +37,7 @@
 ### This project is build over java 8 and you need java 8 to run properly
 - First One is Jar file (need java 8 latest)
 - second is exe (need java 8 latest)
-- third one doe't need java (recommended)
+- third one does not need java (recommended)
 
 | File | Download | File Size
 | ------ | ------ | ------ |
