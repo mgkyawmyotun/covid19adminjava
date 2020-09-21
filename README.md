@@ -1,6 +1,6 @@
 ## Covid 19 Tracker App
 
-##### This is a admin pannel for [Covid-19 Tracker App](https://electron.atom.io) along with api from [covid-19-api-myanmar](https://electron.atom.io)
+##### This is a admin pannel for [Covid-19 Tracker App](https://github.com/mohamadealiyes/covid19userjava) along with api from [covid-19-api-myanmar](https://github.com/mohamadealiyes/covid-19-api-myanmar)
 
 ## Tech
 
