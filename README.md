@@ -36,13 +36,11 @@
 ## Installation
 ### This project is build over java 8 and you need java 8 to run properly
 - First One is Jar file (need java 8 latest)
-- second is exe (need java 8 latest)
-- third one does not need java (recommended)
+- Second one does not need java (recommended)
 
 | File | Download | File Size
 | ------ | ------ | ------ |
 | Covid 19 Admin Pannel.jar | [Download .jar](https://drive.google.com/file/d/1EWY4ZvNxOTDQXSE49ew8mzYQBDCEmfy9/view?usp=sharing) | 8.90 MB
-|  Covid 19 Admin Pannel.exe | [Download .exe](https://drive.google.com/file/d/1ys864UNOrHkTDPeNbMf5t5ZWbsNyQ7fr/view?usp=sharing) | 8.97 MB
 | Covid 19 Admin Pannel Installer.exe | [Download Installer .exe](https://drive.google.com/file/d/12ByuqVhO2875N0bTE_847eW0IPuBeMGS/view?usp=sharing)  | 56.2 MB
 
 
