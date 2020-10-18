@@ -17,26 +17,19 @@ import javafx.stage.Stage;
 import utils.Helper;
 
 
-import java.awt.*;
 
 import java.io.IOException;
 
 
-import java.net.URISyntaxException;
-
-
-import java.text.ParseException;
-
 import java.util.HashMap;
-import java.util.prefs.Preferences;
+
 
 public class Main extends Application {
     public static HashMap<String, Pane> screenMap = new HashMap<>();
     public static Scene sc = null;
     public  static  Preferences preferences = Preferences.userRoot().node(Main.class.getName());
     public  static Stage stage =null;
-    public static void main(String[] args) throws IOException, URISyntaxException, ParseException {
-        System.out.println(preferences.get("token",""));
+    public static void main(String[] args) throws IOException {
         launch(args);
     }
 
@@ -91,12 +84,5 @@ public class Main extends Application {
             stage.show();
 
     }
-    @Override
-    public void stop() throws Exception {
-
-
-
-    }
-
-
+  
 }
