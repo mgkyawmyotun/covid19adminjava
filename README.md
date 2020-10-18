@@ -18,7 +18,7 @@
 
 #### Sofware Pattern
 
-- for simplicity and clean code we follow [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) design pattern,as I told above I use [covid-19-api-myanmar](https://electron.atom.io)(for details check this) for storing and manipulating data.
+- for simplicity and clean code we follow [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) design pattern,as I told above I use [covid-19-api-myanmar](https://github.com/mohamadealiyes/covid19userjava)(for details check this) for storing and manipulating data.
   You can found CRUD Request on Model Folder/Package,
   It hard to sepearate views and controller in GUI base app,So user action and logic are written in controller
   On Views folder,some fxml file for UI
